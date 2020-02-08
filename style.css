@@ -1,0 +1,121 @@
+.image {
+    margin: 16px 0 16px 145px;
+    height: 50px;
+    width: 120px;
+    float: left;
+  }
+
+  .image img {
+    border: none;
+  }
+
+  .tables {
+    height: 35px;
+    float: left;
+    margin: 20px 0;
+  }
+
+  .tables a {
+    color: #737373;
+    font-size: 100%;
+    text-decoration: none;
+    padding: 15px 18px;
+  }
+
+  .wire {
+    border-bottom: 1px solid #dcdcdc;
+    clear: left;
+  }
+
+  .article {
+    clear: left;
+    width: 600px;
+    margin: 30px 0 0 145px;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 0 0 15px 0;
+    line-height: 1.5em;
+  }
+
+  #posts {
+    position: absolute;
+  }
+
+  h2.title {
+    font-weight: 500;
+    color: #333;
+    font-size: 17px;
+    line-height: 1.78em;
+    cursor: pointer;
+    position: relative;
+  }
+
+  h2.title>a {
+    color: #333;
+  }
+
+  p {
+    font-size: 90%;
+    color: #737373;
+  }
+
+  a.first {
+    color: #2E52C3;
+    font-weight: bold;
+  }
+
+  a:hover {
+    color: #2E52C3;
+    font-weight: bold;
+  }
+
+  h2:hover {
+    color: #127FDE;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  p:hover {
+    color: #000000;
+    cursor: pointer;
+  }
+
+  .sponsor {
+    width: 260px;
+    position: relative;
+    left: 830px;
+    top: 20px;
+  }
+
+  img {
+    border: 1px solid #e5e5e5;
+    width: 121px;
+  }
+
+  .sponsor img:hover {
+    box-shadow: 0 0 10px #E5E5E5;
+  }
+
+  h3 {
+    font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+    color: #D8D8D8;
+    font-weight: normal;
+  }
+
+  .lab img {
+    border: none;
+    position: relative;
+    left: 190px;
+  }
+
+  .clearfix {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .clearfix:after {
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }

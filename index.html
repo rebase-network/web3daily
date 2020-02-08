@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Web3Daily</title>
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"></script>
+
+  <script id="articleTpl" type="text/x-handlebars-template">
+    {{#each articles}}
+      {{#if this}}
+        <div class="article">
+          <h2 class="title"> <a href="{{this.url}}" target="_blank">{{this.title}}</a></h2>
+          <p>{{this.introduce}}</p>
+        </div>
+      {{/if}}
+    {{/each}}
+  </script>
+
+</head>
+
+<body>
+  <div class="image"><a href="#"><img src="images/logo.png" width="109" /></a></div>
+
+  <div class="tables">
+    <a href="#" class="first">热门话题</a>
+    <a href="#">科技动态</a>
+    <a href="#">开发者资讯</a>
+    <a href="#">区块链快讯</a>
+    <a href="#">招聘行情</a>
+  </div>
+
+  <div class="lab"><a href="#"><img src="images/lab.png" width="50"></a></div>
+  <div class="wire"></div>
+
+  <div id="posts">
+    <!--
+    <div class="article">
+      <h2>英国拟对谷歌、Facebook 广告收入征收数字税</h2>
+      <p>据外媒报道，英国财政部正计划对广告收入征收新的数字税。财政部正在研究，企业从英国用户身上获得了多少价值，并尝试让企业就这些价值纳税 ... 英国财政部长菲利普 · 哈蒙德（Philip Hammond）上周在保守党大会上发表演讲时提出所谓的「数字服务税」，这可能会瞄准美国科技巨头在英国的广告收入。但对可能影响英国科技创业公司的方案持谨慎态度 ... 来自英国政府的消息人士表示，新税将更多地影响谷歌和 Facebook，对亚马逊的影响较小。</p>
+    </div>
+    -->
+  </div>
+
+  <div class="sponsor">
+    <h3>Sponsors</h3>
+    <a href="#"><img src="images/zlbx.png"></a>
+    <a href="#"><img src="images/smwd.png"></a>
+    <a href="#"><img src="images/wegene.png"></a>
+    <a href="#"><img src="images/jsj.png"></a>
+    <a href="#"><img src="images/zr.png"></a>
+    <a href="#"><img src="images/dm.png"></a>
+    <a href="#"><img src="images/dz.png"></a>
+  </div>
+</body>
+
+<script>
+  $.get("https://sheet.best/api/sheets/237303bb-7468-4aeb-a385-51c0a81eac54", function(data) {
+
+    var source = $("#articleTpl").html();
+    var template = Handlebars.compile(source);
+
+    var context = {
+      "articles": data
+    };
+
+    var html = template(context);
+    $('#posts').html(html);
+  })
+</script>
+
+</html>
