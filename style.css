@@ -53,6 +53,31 @@
     color: #333;
   }
 
+  span.time {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #999;
+    font-weight: 400;
+    display: inline-block;
+    line-height: 1;
+  }
+
+  span.author {
+    font-size: 14px;
+    color: #999;
+    font-weight: 400;
+    display: inline-block;
+    line-height: 1;
+  }
+
+  span.author::before {
+    content: "@";
+   }
+
+   span.author::after {
+     content: ": ";
+   }
+
   p {
     font-size: 90%;
     color: #737373;
