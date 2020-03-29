@@ -1,0 +1,27 @@
+{
+  "name": "web3-daily",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rebase-network/web3daily"
+  },
+  "author": "shooter",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/rebase-network/web3daily/issues"
+  },
+  "homepage": "https://github.com/rebase-network/web3daily#readme",
+  "dependencies": {
+    "@koa/router": "^8.0.8",
+    "dateformat": "^3.0.3",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^2.5.0",
+    "node-fetch": "^2.6.0",
+    "stein-js-client": "0.0.2"
+  }
+}
