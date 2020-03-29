@@ -59,7 +59,8 @@ router.post('/upload', async (ctx, next) => {
       console.log(res);
     });
 
-  ctx.body = postData;
+    const wxcontent = gen_wx_content(postData)
+    ctx.body = wxcontent;
 })
 
 app.use(router.routes(), router.allowedMethods());
@@ -92,13 +93,13 @@ function crateWp(epi, dx) {
     <strong>2. ${dx.title2}</strong>
     <a href="${dx.url2}" target="_blank">${dx.url2}</a>
 
-    @${dx.author1}：${dx.introduce2}
+    @${dx.author2}：${dx.introduce2}
     &nbsp;
 
     <strong>3. ${dx.title3}</strong>
     <a href="${dx.url3}" target="_blank">${dx.url3}</a>
 
-    @${dx.author1}：${dx.introduce3}
+    @${dx.author3}：${dx.introduce3}
     &nbsp;
 
     <!--more-->
@@ -136,4 +137,104 @@ function crateWp(epi, dx) {
     })
     .then(res => res.json())
     .then(json => console.log(json.permalink_template));
+}
+
+function gen_wx_content(dx){
+  let wx_content =`
+    <div class="rich_media_content" id="js_content" style="visibility: visible;">
+      <h2 style="margin-bottom: 14px;font-size: 22px;line-height: 1.4;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-align: start;white-space: normal;background-color: rgb(255, 255, 255);">
+          <span style="font-size: 15px;">微信不支持外部链接，可以点击文章底部的<strong data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start; box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__1" style="font-size: 15px;max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">阅读原文</strong><span data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start;" class="js_darkmode__2" style="max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">，方便阅读文中的链接。</span></span></h2>
+
+      <section data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__4" style="max-width: 100%;text-align: start;color: rgba(255, 255, 255, 0.8);letter-spacing: 0.544px;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+        <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 0.5em;margin-bottom: 0.5em;max-width: 100%;border-width: 0px;border-style: none;border-color: initial;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;width: 748px;border-width: 2px;border-style: solid;border-color: rgb(118, 163, 229);font-family: inherit;text-decoration: inherit;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 15px;margin-bottom: 15px;padding-right: 15px;padding-left: 15px;max-width: 100%;font-size: 1.5em;color: rgb(118, 163, 229);font-family: inherit;text-align: center;text-decoration: inherit;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;text-align: left;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;visibility: visible;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                  1.&nbsp;${dx.title1}</span></section>
+            </section>
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="padding-right: 10px;padding-left: 10px;max-width: 100%;display: inline-block;height: 2em;border-top: 2px solid rgb(118, 163, 229);border-right: 2px solid rgb(118, 163, 229);border-bottom: 2px solid rgb(118, 163, 229);border-left-style: none;overflow: hidden;line-height: 2em;border-top-right-radius: 1em;border-bottom-right-radius: 1em;font-family: inherit;text-decoration: inherit;color: rgb(118, 163, 229);visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                  @${dx.author1}</span></section>
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 20px;margin-bottom: 20px;padding-right: 15px;padding-left: 15px;max-width: 100%;color: rgb(121, 121, 121);visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <p style="margin-bottom: 25px;max-width: 100%;box-sizing: inherit;min-height: 1em;color: rgb(61, 70, 77);font-size: 16px;line-height: 1.8;font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;overflow-wrap: break-word !important;"><span style="font-size: 15px;color: rgb(121, 121, 121);font-family: inherit;text-decoration: inherit;letter-spacing: 0.544px;">
+                  ${dx.url1}</span></p>
+              <p><span style="font-size: 15px;">
+                  ${dx.introduce1}
+              </span></p>
+            </section>
+          </section>
+        </section>
+      </section>
+
+      <p><br></p>
+
+      <section data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__5" style="max-width: 100%;text-align: start;color: rgba(255, 255, 255, 0.8);letter-spacing: 0.544px;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+        <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 0.5em;margin-bottom: 0.5em;max-width: 100%;border-width: 0px;border-style: none;border-color: initial;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;width: 748px;border-width: 2px;border-style: solid;border-color: rgb(118, 163, 229);font-family: inherit;text-decoration: inherit;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 15px;margin-bottom: 15px;padding-right: 15px;padding-left: 15px;max-width: 100%;font-size: 1.5em;color: rgb(118, 163, 229);font-family: inherit;text-align: center;text-decoration: inherit;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;text-align: left;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;visibility: visible;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                  2.&nbsp;${dx.title2}</span></section>
+            </section>
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="padding-right: 10px;padding-left: 10px;max-width: 100%;font-size: 1.2em;display: inline-block;height: 2em;border-top: 2px solid rgb(118, 163, 229);border-right: 2px solid rgb(118, 163, 229);border-bottom: 2px solid rgb(118, 163, 229);border-left-style: none;overflow: hidden;line-height: 2em;border-top-right-radius: 1em;border-bottom-right-radius: 1em;font-family: inherit;text-decoration: inherit;color: rgb(118, 163, 229);visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;visibility: visible;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                  @${dx.author2}&nbsp;</span></section>
+            </section>
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 20px;margin-bottom: 20px;padding-right: 15px;padding-left: 15px;max-width: 100%;color: rgb(121, 121, 121);visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <p><span style="font-size: 15px;">
+                ${dx.url2}
+              </span></p>
+              <p><br></p>
+              <p style="text-align: justify;"><span style="font-size: 15px;">
+                ${dx.introduce2}
+              </span></p>
+            </section>
+          </section>
+          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;font-size: 14px;width: 0px;height: 0px;clear: both;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br></section>
+        </section>
+      </section>
+
+      <p data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; min-height: 1em; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__6" style="max-width: 100%;min-height: 1em;font-size: 14px;text-align: start;color: rgba(255, 255, 255, 0.8);letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br></p>
+      <section data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__7" style="max-width: 100%;text-align: start;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+        <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 0.5em;margin-bottom: 0.5em;max-width: 100%;border-width: 0px;border-style: none;border-color: initial;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;width: 748px;border-width: 2px;border-style: solid;border-color: rgb(118, 163, 229);font-family: inherit;text-decoration: inherit;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 15px;margin-bottom: 15px;padding-right: 15px;padding-left: 15px;max-width: 100%;color: rgb(118, 163, 229);font-size: 1.5em;font-family: inherit;text-align: center;text-decoration: inherit;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;text-align: left;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                  3.&nbsp;${dx.title3}</span></section>
+            </section>
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="padding-right: 10px;padding-left: 10px;max-width: 100%;color: rgb(118, 163, 229);font-size: 1.2em;display: inline-block;height: 2em;border-top: 2px solid rgb(118, 163, 229);border-right: 2px solid rgb(118, 163, 229);border-bottom: 2px solid rgb(118, 163, 229);border-left-style: none;overflow: hidden;line-height: 2em;border-top-right-radius: 1em;border-bottom-right-radius: 1em;font-family: inherit;text-decoration: inherit;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                  @${dx.author3}</span></section>
+            </section>
+            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 20px;margin-bottom: 20px;padding-right: 15px;padding-left: 15px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+              <p style="color: rgb(121, 121, 121);letter-spacing: 0.544px;text-align: start;white-space: normal;"><span style="font-size: 15px;">
+                ${dx.url3}
+              </span></p>
+              <p style="color: rgb(121, 121, 121);letter-spacing: 0.544px;text-align: start;white-space: normal;"><br></p>
+              <p style="color: rgb(121, 121, 121);letter-spacing: 0.544px;white-space: normal;"><span style="font-size: 15px;">
+                ${dx.introduce3}
+              </span></p>
+            </section>
+          </section>
+          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;color: rgba(255, 255, 255, 0.8);font-size: 14px;width: 0px;height: 0px;clear: both;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></section>
+        </section>
+      </section>
+      <p><br></p>
+      <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
+      <hr style="max-width: 100%;border-style: solid;border-right-width: 0px;border-bottom-width: 0px;border-left-width: 0px;border-color: rgba(0, 0, 0, 0.098);transform-origin: 0px 0px 0px;transform: scale(1, 0.5);box-sizing: border-box !important;overflow-wrap: break-word !important;">
+      <p style="max-width: 100%;min-height: 1em;color: rgb(53, 53, 53);font-size: 14px;text-align: start;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
+      <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">Web3极客日报</strong>是为Web3时代的极客们准备的一份日报，它是由一群极客们推荐他们认为有价值的内容并附上一段推荐语，最后通过Rebase的成员整理编辑。</span></p>
+      <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
+      <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">如果你是一名极客，你有好的工具、好的开源项目、好的文章和教程等想要分享给大家，请推荐给我们！<span style="max-width: 100%;letter-spacing: 0.544px;">如果你也想参与到Web3极客日报的建设中，请在后台留下你的微信号和简单的介绍，我们（一群闲散的极客）会尽快和你联系。</span></span></p>
+      <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
+      <hr style="max-width: 100%;border-style: solid;border-right-width: 0px;border-bottom-width: 0px;border-left-width: 0px;border-color: rgba(0, 0, 0, 0.098);transform-origin: 0px 0px 0px;transform: scale(1, 0.5);box-sizing: border-box !important;overflow-wrap: break-word !important;">
+      <p style="max-width: 100%;min-height: 1em;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
+      <p style="max-width: 100%;min-height: 1em;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">网站：</strong><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">http://rebase.network</strong></span></p>
+      <p style="max-width: 100%;min-height: 1em;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">公众号：</strong><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">rebase_network</strong></span></p>
+      <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
+      <p style="max-width: 100%;min-height: 1em;color: rgb(53, 53, 53);font-size: 14px;text-align: center;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><img class="rich_pages img_loading" data-ratio="1" data-s="300,640" data-type="png" data-w="372" data-src="https://mmbiz.qpic.cn/mmbiz_png/dQFmOEibdOILxKiaRicuntofrvicP1v2g48bIUcYsz5nWg06M9e67TcTLr6dw9V7wr2h7uQRYQnkqvPUaboedLOkPg/640?wx_fmt=png" style="box-sizing: border-box !important; overflow-wrap: break-word !important; visibility: visible !important; width: 223px !important; height: 223px !important;" _width="223px" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" crossorigin="anonymous"></p>
+      <p><br></p>
+    </div>
+  `
+
+  return wx_content;
 }
