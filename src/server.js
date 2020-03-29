@@ -27,7 +27,7 @@ router.post('/upload', async (ctx, next) => {
   const now = getCurrTime();
   const epi = "#" + postData.episode;
 
-  await crateWp(epi, postData);
+const feedbackurl = await crateWp(epi, postData);
 
   store.append("Summary", [
     {
@@ -59,7 +59,7 @@ router.post('/upload', async (ctx, next) => {
       console.log(res);
     });
 
-    const wxcontent = gen_wx_content(postData)
+    const wxcontent = gen_wx_content(feedbackurl, postData)
     ctx.body = wxcontent;
 })
 
@@ -130,17 +130,25 @@ function crateWp(epi, dx) {
 
   headers['Authorization'] = 'Basic ' + Buffer.from(u_id + ":" + u_passwd).toString('base64');
 
-  fetch(endpoint_url_posts, {
+  return fetch(endpoint_url_posts, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(payload),
     })
     .then(res => res.json())
-    .then(json => console.log(json.permalink_template));
+    .then(json => {
+      console.log("url =>", json.permalink_template);
+
+      return json.permalink_template;
+    });
+
 }
 
-function gen_wx_content(dx){
+function gen_wx_content(url, dx){
   let wx_content =`
+
+    <div>直接复制以下内容到微信公众号，原文链接：${url} </div>
+
     <div class="rich_media_content" id="js_content" style="visibility: visible;">
       <h2 style="margin-bottom: 14px;font-size: 22px;line-height: 1.4;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-align: start;white-space: normal;background-color: rgb(255, 255, 255);">
           <span style="font-size: 15px;">微信不支持外部链接，可以点击文章底部的<strong data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start; box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__1" style="font-size: 15px;max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">阅读原文</strong><span data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start;" class="js_darkmode__2" style="max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">，方便阅读文中的链接。</span></span></h2>
