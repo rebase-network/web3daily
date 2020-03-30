@@ -1,14 +1,35 @@
 const fs = require('fs');
 const path = require("path");
+const conf = require('config');
+
 const Koa = require('koa');
 const router = require('@koa/router')();
 const bodyParser = require('koa-bodyparser');
+const auth = require('koa-basic-auth');
 
 const fetch = require('node-fetch');
 const dateFormat = require('dateformat');
 const SteinStore = require("stein-js-client");
 
 const app = new Koa();
+
+// custom 401 handling
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    if (401 == err.status) {
+      ctx.status = 401;
+      ctx.set('WWW-Authenticate', 'Basic');
+      ctx.body = 'Access Denied';
+    } else {
+      throw err;
+    }
+  }
+});
+
+// require auth
+app.use(auth({ name: conf.get('auth_name'), pass: conf.get('auth_passwd') }));
 
 app.use(bodyParser());
 
@@ -17,7 +38,7 @@ router.get('/', (ctx, next) => {
   ctx.response.body = fs.createReadStream(path.join(__dirname, "/views/index.html"));
 })
 
-router.post('/upload', async (ctx, next) => {
+router.post('/pow', async (ctx, next) => {
 
   let postData = ctx.request.body;
 
@@ -65,7 +86,9 @@ const feedbackurl = await crateWp(epi, postData);
 
 app.use(router.routes(), router.allowedMethods());
 
-app.listen(2300, () => console.log("\n\nrunning on port http://localhost:2300"));
+const port = conf.get('port');
+
+app.listen(port, () => console.log("\n\nrunning on port http://localhost:" + port));
 
 function getCurrTime() { // 当前时间
   return dateFormat(new Date(), "yyyy-mm-dd");
@@ -121,8 +144,8 @@ function crateWp(epi, dx) {
     'categories': p_categories,
   }
 
-  const u_id = "" // 用户名
-  const u_passwd = "" // 使用 https://wordpress.org/plugins/application-passwords/ 得到密码
+  const u_id = conf.get('u_id') // 用户名
+  const u_passwd = conf.get('u_passwd') // 使用 https://wordpress.org/plugins/application-passwords/ 得到密码
 
   let headers = {
     'content-type': "Application/json",

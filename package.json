@@ -18,8 +18,10 @@
   "homepage": "https://github.com/rebase-network/web3daily#readme",
   "dependencies": {
     "@koa/router": "^8.0.8",
+    "config": "^3.3.1",
     "dateformat": "^3.0.3",
     "koa": "^2.11.0",
+    "koa-basic-auth": "^4.0.0",
     "koa-bodyparser": "^2.5.0",
     "node-fetch": "^2.6.0",
     "stein-js-client": "0.0.2"
