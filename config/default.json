@@ -3,5 +3,14 @@
   "u_id":"",
   "u_passwd":"",
   "auth_name":"",
-  "auth_passwd":""
+  "auth_passwd":"",
+  "user":{
+    "river":"",
+    "liuyi":"",
+    "gala":"",
+    "frozen":"",
+    "ryan":"",
+    "harry":"",
+    "shooter":""
+  }
 }

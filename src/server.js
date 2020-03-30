@@ -48,7 +48,7 @@ router.post('/pow', async (ctx, next) => {
   const now = getCurrTime();
   const epi = "#" + postData.episode;
 
-const feedbackurl = await crateWp(epi, postData);
+  const feedbackurl = await crateWp(epi, postData.editor, postData);
 
   store.append("Summary", [
     {
@@ -94,7 +94,7 @@ function getCurrTime() { // 当前时间
   return dateFormat(new Date(), "yyyy-mm-dd");
 }
 
-function crateWp(epi, dx) {
+function crateWp(epi, editor, dx) {
 
   const endpoint_url_posts = "http://rebase.network/wp-json/wp/v2/posts"
 
@@ -102,7 +102,9 @@ function crateWp(epi, dx) {
   const p_format = "gallery" // 展示方式
   const p_featured_media = "647" // 封面图片的id
   const p_categories = "27" // 类别id
-  const p_author = "2" // 作者id
+
+  const editorid = "user." + editor;
+  const p_author = conf.get(editorid) // 作者id
 
   const p_title = "Web3极客日报 " + epi;
 
