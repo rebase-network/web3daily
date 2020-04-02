@@ -34,7 +34,10 @@
 </head>
 
 <body>
-  <div class="image">Web3极客日报<small>@Rebase.network</small></div>
+  <div class="header">
+    <span>Web3极客日报</span>
+    <small>@Rebase.network</small>
+  </div>
   <!--
   <div class="tables">
     <a href="#" class="first">热门话题</a>
@@ -79,7 +82,7 @@
 </body>
 
 <script>
-  $.get("https://sheet.best/api/sheets/c904c7be-955d-429e-9c29-376f4e31ecca", function(data) {
+  $.get("https://sheet.best/api/sheets/c904c7be-955d-429e-9c29-376f4e31ecca/tabs/Summary", function(data) {
 
     var source = $("#articleTpl").html();
     var template = Handlebars.compile(source);
