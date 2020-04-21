@@ -42,6 +42,9 @@ router.post('/pow', async (ctx, next) => {
 
   let postData = ctx.request.body;
 
+  // https://stackoverflow.com/a/51616282/1240067
+  Object.keys(postData).map(k => postData[k] = typeof postData[k] == 'string' ? postData[k].trim() : postData[k]);
+
   const steinhqApi = "https://api.steinhq.com/v1/storages/5e73b903b88d3d04ae0815bb";
   const store = new SteinStore(steinhqApi);
 
@@ -226,7 +229,6 @@ function gen_wx_content(content, dx){
       </section>
       <br/>
 
-      <p data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; min-height: 1em; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__6" style="max-width: 100%;min-height: 1em;font-size: 14px;text-align: start;color: rgba(255, 255, 255, 0.8);letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br></p>
       <section data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__7" style="max-width: 100%;text-align: start;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
         <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 0.5em;margin-bottom: 0.5em;max-width: 100%;border-width: 0px;border-style: none;border-color: initial;box-sizing: border-box !important;overflow-wrap: break-word !important;">
           <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;width: 748px;border-width: 2px;border-style: solid;border-color: rgb(118, 163, 229);font-family: inherit;text-decoration: inherit;box-sizing: border-box !important;overflow-wrap: break-word !important;">
@@ -268,6 +270,5 @@ function gen_wx_content(content, dx){
       <p style="max-width: 100%;min-height: 1em;color: rgb(53, 53, 53);font-size: 14px;text-align: center;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><img class="rich_pages img_loading" data-ratio="1" data-s="300,640" data-type="png" data-w="372" data-src="https://mmbiz.qpic.cn/mmbiz_png/dQFmOEibdOILxKiaRicuntofrvicP1v2g48bIUcYsz5nWg06M9e67TcTLr6dw9V7wr2h7uQRYQnkqvPUaboedLOkPg/640?wx_fmt=png" style="box-sizing: border-box !important; overflow-wrap: break-word !important; visibility: visible !important; width: 223px !important; height: 223px !important;" _width="223px" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" crossorigin="anonymous"></p>
     </div>
   `
-
   return wx_content;
 }
