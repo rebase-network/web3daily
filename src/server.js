@@ -100,12 +100,13 @@ function getCurrTime() { // 当前时间
 
 function crateWp(epi, editor, dx) {
 
-  const endpoint_url_posts = "http://rebase.network/wp-json/wp/v2/posts"
+  const endpoint_url_posts = "https://rebase.network/wp-json/wp/v2/posts"
 
   const p_status = "publish" // 直接发布
   const p_format = "gallery" // 展示方式
-  const p_featured_media = "647" // 封面图片的id
+  const p_featured_media = "1012" // 封面图片的id
   const p_categories = "27" // 类别id
+  const p_tags = [30,32,31,28] // 类别id
 
   const editorid = "user." + editor
   const p_author = conf.get(editorid) // 作者id
@@ -148,6 +149,7 @@ function crateWp(epi, editor, dx) {
     'format': p_format,
     'featured_media': p_featured_media,
     'categories': p_categories,
+    'tags': p_tags,
   }
 
   const u_id = conf.get('u_id') // 用户名
