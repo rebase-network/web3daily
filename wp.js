@@ -5,8 +5,9 @@ const web3_excel_url = "https://sheet.best/api/sheets/c904c7be-955d-429e-9c29-37
 
 const p_status = "publish" // 直接发布
 const p_format = "gallery" // 展示方式
-const p_featured_media = "647" // 封面图片的id
+const p_featured_media = "1012" // 封面图片的id
 const p_categories = "27" // 类别id
+const p_tags = [30,32,31,28]
 const p_author = "2" // 作者id
 
 const p_title = "Web3极客日报 #"
@@ -49,6 +50,7 @@ const payload = {
   'format': p_format,
   'featured_media': p_featured_media,
   'categories': p_categories,
+  'tags': p_tags,
 }
 
 const u_id = "" // 用户名
