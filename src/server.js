@@ -111,7 +111,7 @@ function crateWp(epi, editor, dx) {
   const editorid = "user." + editor
   const p_author = conf.get(editorid) // 作者id
 
-  const p_title = "Web3极客日报 " + epi;
+  const p_title = "Web3极客日报 " + epi + " | Rebase Network | Rebase社区";
 
   const p_content = `
     <strong>1. ${dx.title1}</strong>
