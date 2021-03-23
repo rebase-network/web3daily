@@ -29,102 +29,112 @@
   <div class="" style="height:5em">
   </div>
 
-  <div class="ui padded grid">
+  <div class="ui two column grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui padded grid">
+          <form class="ui form" action="/pow" method="post">
 
-    <form class="ui form" action="/pow" method="post">
+            <div class="field">
+              <div class="ui left action input">
+                <button class="ui teal icon button">Web3极客日报 #</button>
+                <input type="text" value="" name="episode" placeholder="请从右侧获取本次序号" required>
+              </div>
+            </div>
 
-      <div class="field">
-        <div class="ui left action input">
-          <button class="ui teal icon button">Web3极客日报 #</button>
-          <input type="text" value="" name="episode">
+            <div class="field">
+              <select class="ui fluid dropdown" name="editor">
+                <option value="liuyi">刘一</option>
+                <option value="gala">gala</option>
+                <option value="frozen">frozen</option>
+                <option value="ryan">黄岩Ryan</option>
+                <option value="river">river</option>
+                <option value="harry">harry</option>
+                <option value="shooter">shooter</option>
+              </select>
+            </div>
+
+            <h4 class="ui dividing header">日报1</h4>
+
+            <div class="field">
+
+              <div class="three fields">
+                <div class="field">
+                  <input type="text" name="author1" placeholder="作者" required>
+                </div>
+
+                <div class="field">
+                  <input type="text" name="title1" placeholder="标题" required>
+                </div>
+
+                <div class="field">
+                  <input type="text" name="url1" placeholder="链接" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>介绍</label>
+              <textarea name="introduce1" rows="2"></textarea>
+            </div>
+
+            <h4 class="ui dividing header">日报2</h4>
+            <div class="field">
+
+              <div class="three fields">
+                <div class="field">
+                  <input type="text" name="author2" placeholder="作者" required>
+                </div>
+
+                <div class="field">
+                  <input type="text" name="title2" placeholder="标题" required>
+                </div>
+
+                <div class="field">
+                  <input type="text" name="url2" placeholder="链接" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>介绍</label>
+              <textarea name="introduce2" rows="2"></textarea>
+            </div>
+
+            <h4 class="ui dividing header">日报3</h4>
+            <div class="field">
+
+              <div class="three fields">
+                <div class="field">
+                  <input type="text" name="author3" placeholder="作者" required>
+                </div>
+
+                <div class="field">
+                  <input type="text" name="title3" placeholder="标题" required>
+                </div>
+
+                <div class="field">
+                  <input type="text" name="url3" placeholder="链接" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>介绍</label>
+              <textarea name="introduce3" rows="2"></textarea>
+            </div>
+
+            <button class="ui primary button" type="submit">发布</button>
+
+          </form>
         </div>
       </div>
 
-      <div class="field">
-        <select class="ui fluid dropdown" name="editor">
-          <option value="liuyi">刘一</option>
-          <option value="gala">gala</option>
-          <option value="frozen">frozen</option>
-          <option value="ryan">黄岩Ryan</option>
-          <option value="river">river</option>
-          <option value="harry">harry</option>
-          <option value="shooter">shooter</option>
-        </select>
+      <div class="column">
+        <iframe src="https://rebase.network/posts/category/web3daily" frameborder="0" width="90%" height="600" title="Rebase">
+        </iframe>
       </div>
-
-      <h4 class="ui dividing header">日报1</h4>
-
-      <div class="field">
-
-        <div class="three fields">
-          <div class="field">
-            <input type="text" name="author1" placeholder="作者">
-          </div>
-
-          <div class="field">
-            <input type="text" name="title1" placeholder="标题">
-          </div>
-
-          <div class="field">
-            <input type="text" name="url1" placeholder="链接">
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>介绍</label>
-        <textarea name="introduce1" rows="2"></textarea>
-      </div>
-
-      <h4 class="ui dividing header">日报2</h4>
-      <div class="field">
-
-        <div class="three fields">
-          <div class="field">
-            <input type="text" name="author2" placeholder="作者">
-          </div>
-
-          <div class="field">
-            <input type="text" name="title2" placeholder="标题">
-          </div>
-
-          <div class="field">
-            <input type="text" name="url2" placeholder="链接">
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>介绍</label>
-        <textarea name="introduce2" rows="2"></textarea>
-      </div>
-
-      <h4 class="ui dividing header">日报3</h4>
-      <div class="field">
-
-        <div class="three fields">
-          <div class="field">
-            <input type="text" name="author3" placeholder="作者">
-          </div>
-
-          <div class="field">
-            <input type="text" name="title3" placeholder="标题">
-          </div>
-
-          <div class="field">
-            <input type="text" name="url3" placeholder="链接">
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>介绍</label>
-        <textarea name="introduce3" rows="2"></textarea>
-      </div>
-
-      <button class="ui primary button" type="submit">发布</button>
-
-    </form>
+    </div>
 
   </div>
 
