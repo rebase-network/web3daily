@@ -53,6 +53,8 @@ router.post('/pow', async (ctx, next) => {
   const epi = "#" + postData.episode;
 
   const feedback = await crateWp(epi, postData.editor, postData);
+  
+  const msg = await createDiscordMsg(epi, postData.editor, postData);
 
   store.append("Summary", [
     {
@@ -98,6 +100,7 @@ function getCurrTime() { // 当前时间
   return moment(new Date()).format("YYYY-MM-DD")
 }
 
+// Create WP post
 function crateWp(epi, editor, dx) {
 
   const endpoint_url_posts = "https://rebase.network/wp-json/wp/v2/posts"
@@ -173,6 +176,61 @@ function crateWp(epi, editor, dx) {
 
 }
 
+// Create Discord Msg
+function createDiscordMsg(epi, editor, dx) {
+
+  const endpoint_url_posts = "https://discord.com/api/webhooks/884879700248383541/SaChSV9vyEu3uSo2ZUJI2DfBunbCKs6cw4zUxIu_GXpz0njlDNyLAfmpEGQeeAqHXctZ"
+
+  const p_title = "Web3极客日报 " + epi + " | Rebase Network | Rebase社区";
+
+  const p_content = `
+    ${p_title}
+    
+    1. ${dx.title1}
+    ${dx.url1}
+
+    @${dx.author1}：${dx.introduce1}
+    &nbsp;
+
+    2. ${dx.title2}
+    ${dx.url2}
+
+    @${dx.author2}：${dx.introduce2}
+    &nbsp;
+
+    3. ${dx.title3}
+    ${dx.url3}
+
+    @${dx.author3}：${dx.introduce3}
+    &nbsp;
+
+    <!--more-->
+
+    网站：http://rebase.network
+    公众号：rebase_network
+  `
+  const payload = {
+    'content': p_content
+  }
+
+  let headers = {
+    'content-type': "Application/json",
+  }
+
+  return fetch(endpoint_url_posts, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(payload),
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log("url =>", json.permalink_template)
+
+      return `Success`;
+    });
+}
+
+// Create WX chat content
 function gen_wx_content(content, dx){
   let wx_content =`
     <div>${content} </div>
