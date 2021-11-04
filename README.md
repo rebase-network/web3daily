@@ -7,5 +7,6 @@
 |    |北美开吻|张晓-冰链科技|Harry|Kaiji|尹航@Phala|Dream|周洋|
 |    |Shooter|winky|樊金辉|Caos|洋芋|Autark|Zhangxuesong|
 |    |Samczsun#7947|海绵|Rain|Collin|军军|安科|Aaron|
+|    ||昊暠skyh||||||
 
 如果连续 3 周没有贡献，推荐人会被请出智囊团。
