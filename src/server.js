@@ -53,7 +53,7 @@ router.post('/pow', async (ctx, next) => {
   const epi = "#" + postData.episode;
 
   const feedback = await crateWp(epi, postData.editor, postData);
-  
+
   const msg = await createDiscordMsg(epi, postData.editor, postData);
 
   store.append("Summary", [
@@ -185,7 +185,7 @@ function createDiscordMsg(epi, editor, dx) {
 
   const p_content = `
     ${p_title}
-    
+
     1. ${dx.title1}
     ${dx.url1}
 
@@ -235,84 +235,124 @@ function gen_wx_content(content, dx){
   let wx_content =`
     <div>${content} </div>
 
-    <div class="rich_media_content" id="js_content" style="visibility: visible;">
+    <br/>
+    <br/>
+
+    <div class="rich_media_content" style="visibility: visible; margin: 5px 8px;">
       <h2 style="margin-bottom: 14px;font-size: 22px;line-height: 1.4;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-align: start;white-space: normal;background-color: rgb(255, 255, 255);">
-          <span style="font-size: 15px;">微信不支持外部链接，可以点击文章底部的<strong data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start; box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__1" style="font-size: 15px;max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">阅读原文</strong><span data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start;" class="js_darkmode__2" style="max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+          <span style="margin: 5px 8px; font-size: 15px;">微信不支持外部链接，可以点击文章底部的<strong data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start; box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__1" style="font-size: 15px;max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">阅读原文</strong><span data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start;" class="js_darkmode__2" style="max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
           ，方便阅读文中的链接，也可通过 http://daily.rebase.network/ 浏览每期日报内容。</span></span></h2>
 
-      <section data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__4" style="max-width: 100%;text-align: start;color: rgba(255, 255, 255, 0.8);letter-spacing: 0.544px;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-        <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 0.5em;margin-bottom: 0.5em;max-width: 100%;border-width: 0px;border-style: none;border-color: initial;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;width: 748px;border-width: 2px;border-style: solid;border-color: rgb(118, 163, 229);font-family: inherit;text-decoration: inherit;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 15px;margin-bottom: 15px;padding-right: 15px;padding-left: 15px;max-width: 100%;font-size: 1.5em;color: rgb(118, 163, 229);font-family: inherit;text-align: center;text-decoration: inherit;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;text-align: left;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;visibility: visible;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-                  1.&nbsp;${dx.title1}</span></section>
-            </section>
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="padding-right: 10px;padding-left: 10px;max-width: 100%;display: inline-block;height: 2em;border-top: 2px solid rgb(118, 163, 229);border-right: 2px solid rgb(118, 163, 229);border-bottom: 2px solid rgb(118, 163, 229);border-left-style: none;overflow: hidden;line-height: 2em;border-top-right-radius: 1em;border-bottom-right-radius: 1em;font-family: inherit;text-decoration: inherit;color: rgb(118, 163, 229);visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-                  @${dx.author1}</span></section>
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 20px;margin-bottom: 20px;padding-right: 15px;padding-left: 15px;max-width: 100%;color: rgb(121, 121, 121);visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <p style="margin-bottom: 25px;max-width: 100%;box-sizing: inherit;min-height: 1em;color: rgb(61, 70, 77);font-size: 16px;line-height: 1.8;font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;overflow-wrap: break-word !important;"><span style="font-size: 15px;color: rgb(121, 121, 121);font-family: inherit;text-decoration: inherit;letter-spacing: 0.544px;">
-                  ${dx.url1}</span></p>
-              <p><span style="font-size: 15px;">
-                  ${dx.introduce1}
-              </span></p>
-            </section>
-          </section>
-        </section>
-      </section>
-      <br/>
+          <blockquote style="margin: 2em 8px; -webkit-tap-highlight-color: transparent; font-size: 14px; white-space: normal; text-align: left; color: rgba(0, 0, 0, 0.5); line-height: 1.75; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif; border-left: none; padding: 1em; border-radius: 8px; background: rgb(247, 247, 247);" data-mpa-powered-by="yiban.io">
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <strong>
+              <span style="color: rgb(0, 0, 0);">
+                ${dx.title1}
+              </span>
+            </strong>
+          </p>
 
-      <section data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__5" style="max-width: 100%;text-align: start;color: rgba(255, 255, 255, 0.8);letter-spacing: 0.544px;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-        <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 0.5em;margin-bottom: 0.5em;max-width: 100%;border-width: 0px;border-style: none;border-color: initial;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;width: 748px;border-width: 2px;border-style: solid;border-color: rgb(118, 163, 229);font-family: inherit;text-decoration: inherit;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 15px;margin-bottom: 15px;padding-right: 15px;padding-left: 15px;max-width: 100%;font-size: 1.5em;color: rgb(118, 163, 229);font-family: inherit;text-align: center;text-decoration: inherit;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;text-align: left;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;visibility: visible;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-                  2.&nbsp;${dx.title2}</span></section>
-            </section>
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="padding-right: 10px;padding-left: 10px;max-width: 100%;font-size: 1.2em;display: inline-block;height: 2em;border-top: 2px solid rgb(118, 163, 229);border-right: 2px solid rgb(118, 163, 229);border-bottom: 2px solid rgb(118, 163, 229);border-left-style: none;overflow: hidden;line-height: 2em;border-top-right-radius: 1em;border-bottom-right-radius: 1em;font-family: inherit;text-decoration: inherit;color: rgb(118, 163, 229);visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;visibility: visible;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-                  @${dx.author2}&nbsp;</span></section>
-            </section>
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 20px;margin-bottom: 20px;padding-right: 15px;padding-left: 15px;max-width: 100%;color: rgb(121, 121, 121);visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <p><span style="font-size: 15px;">
-                ${dx.url2}
-              </span></p>
-              <p><br></p>
-              <p style="text-align: justify;"><span style="font-size: 15px;">
-                ${dx.introduce2}
-              </span></p>
-            </section>
-          </section>
-          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;font-size: 14px;width: 0px;height: 0px;clear: both;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br></section>
-        </section>
-      </section>
-      <br/>
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <strong><span style="color: rgb(0, 0, 0);"><br></span></strong>
+          </p>
 
-      <section data-darkmode-bgcolor="rgb(36, 36, 36)" data-style="white-space: normal; max-width: 100%; letter-spacing: 0.544px; font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; background-color: rgb(255, 255, 255); box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__7" style="max-width: 100%;text-align: start;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-        <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 0.5em;margin-bottom: 0.5em;max-width: 100%;border-width: 0px;border-style: none;border-color: initial;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;width: 748px;border-width: 2px;border-style: solid;border-color: rgb(118, 163, 229);font-family: inherit;text-decoration: inherit;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 15px;margin-bottom: 15px;padding-right: 15px;padding-left: 15px;max-width: 100%;color: rgb(118, 163, 229);font-size: 1.5em;font-family: inherit;text-align: center;text-decoration: inherit;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;text-align: left;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-                  3.&nbsp;${dx.title3}</span></section>
-            </section>
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="padding-right: 10px;padding-left: 10px;max-width: 100%;color: rgb(118, 163, 229);font-size: 1.2em;display: inline-block;height: 2em;border-top: 2px solid rgb(118, 163, 229);border-right: 2px solid rgb(118, 163, 229);border-bottom: 2px solid rgb(118, 163, 229);border-left-style: none;overflow: hidden;line-height: 2em;border-top-right-radius: 1em;border-bottom-right-radius: 1em;font-family: inherit;text-decoration: inherit;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-                  @${dx.author3}</span></section>
-            </section>
-            <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="margin-top: 20px;margin-bottom: 20px;padding-right: 15px;padding-left: 15px;max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">
-              <p style="color: rgb(121, 121, 121);letter-spacing: 0.544px;text-align: start;white-space: normal;"><span style="font-size: 15px;">
-                ${dx.url3}
-              </span></p>
-              <p style="color: rgb(121, 121, 121);letter-spacing: 0.544px;text-align: start;white-space: normal;"><br></p>
-              <p style="color: rgb(121, 121, 121);letter-spacing: 0.544px;white-space: normal;"><span style="font-size: 15px;">
-                ${dx.introduce3}
-              </span></p>
-            </section>
-          </section>
-          <section data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;color: rgba(255, 255, 255, 0.8);font-size: 14px;width: 0px;height: 0px;clear: both;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br data-darkmode-bgcolor="rgb(36, 36, 36)" style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></section>
-        </section>
-      </section>
-      <br/>
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            ${dx.url1}
+            <br>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <em style="color: rgba(0, 0, 0, 0.5);"><br></em>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <span style="color: rgb(0, 0, 0);font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif;letter-spacing: 1.4px;text-align: left;background-color: rgb(247, 247, 247);">
+              <strong>${dx.author1}</strong>：
+            </span>
+
+            <span style="color: rgb(0, 0, 0);">
+              ${dx.introduce1}
+            </span>
+
+            <span style="color: rgb(179, 144, 144);font-size: 1em;letter-spacing: 0.1em;"></span>
+          </p>
+        </blockquote>
+
+        <!--  -->
+        <blockquote style="margin: 2em 8px; -webkit-tap-highlight-color: transparent; font-size: 14px; white-space: normal; text-align: left; color: rgba(0, 0, 0, 0.5); line-height: 1.75; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif; border-left: none; padding: 1em; border-radius: 8px; background: rgb(247, 247, 247);" data-mpa-powered-by="yiban.io">
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <strong>
+              <span style="color: rgb(0, 0, 0);">
+                ${dx.title2}
+              </span>
+            </strong>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <strong><span style="color: rgb(0, 0, 0);"><br></span></strong>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            ${dx.url2}
+            <br>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <em style="color: rgba(0, 0, 0, 0.5);"><br></em>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <span style="color: rgb(0, 0, 0);font-size: 16px;">
+              <span style="color: rgb(0, 0, 0);font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif;letter-spacing: 1.4px;text-align: left;background-color: rgb(247, 247, 247);">
+                <strong>${dx.author2}</strong>：
+              </span>
+            </span>
+
+            <span style="color: rgb(0, 0, 0);">
+              ${dx.introduce2}
+            </span>
+
+            <span style="color: rgb(179, 144, 144);font-size: 1em;letter-spacing: 0.1em;"></span>
+          </p>
+        </blockquote>
+
+        <!--  -->
+        <blockquote style="margin: 2em 8px; -webkit-tap-highlight-color: transparent; font-size: 14px; white-space: normal; text-align: left; color: rgba(0, 0, 0, 0.5); line-height: 1.75; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif; border-left: none; padding: 1em; border-radius: 8px; background: rgb(247, 247, 247);" data-mpa-powered-by="yiban.io">
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <strong>
+              <span style="color: rgb(0, 0, 0);">
+                ${dx.title3}
+              </span>
+            </strong>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <strong><span style="color: rgb(0, 0, 0);"><br></span></strong>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            ${dx.url3}
+            <br>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <em style="color: rgba(0, 0, 0, 0.5);"><br></em>
+          </p>
+
+          <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
+            <span style="color: rgb(0, 0, 0);font-size: 16px;">
+              <span style="color: rgb(0, 0, 0);font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif;letter-spacing: 1.4px;text-align: left;background-color: rgb(247, 247, 247);">
+                <strong>${dx.author3}</strong>：
+              </span>
+            </span>
+
+            <span style="color: rgb(0, 0, 0);">
+              ${dx.introduce3}
+            </span>
+
+            <span style="color: rgb(179, 144, 144);font-size: 1em;letter-spacing: 0.1em;"></span>
+          </p>
+        </blockquote>
 
       <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
       <hr style="max-width: 100%;border-style: solid;border-right-width: 0px;border-bottom-width: 0px;border-left-width: 0px;border-color: rgba(0, 0, 0, 0.098);transform-origin: 0px 0px 0px;transform: scale(1, 0.5);box-sizing: border-box !important;overflow-wrap: break-word !important;">
