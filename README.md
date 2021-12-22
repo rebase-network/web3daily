@@ -4,8 +4,8 @@
 |:----|:----|:----|:----|:----|:----|:----|:----|
 |催更人|Jasmyn      |Nicole        |Rebecca   |黄岩     |Gala        |River        |林柒柒        |
 |推荐人|昊暠skyh     |Frozen       |Survivor  |陈锡亮    |Gala        |Sam          |Yan          |
-|     |Harry        |张晓-冰链科技 |北美开吻   |Collin   |尹航@Phala   |Dream        |Zhangxuesong |
-|     |Shooter      |winky        |樊金辉     |Caos     |洋芋         |CyberOrange  |Aaron        |
-|     |             |海绵          |Rain      |         |军军         |             |             |
+|     |Harry        |张晓-冰链科技 |北美开吻   |Collin   |0xMax        |Dream        |Zhangxuesong |
+|     |Shooter      |winky        |樊金辉     |Caos     |            |CyberOrange  |Aaron        |
+|     |             |海绵          |Rain      |         |            |             |             |
 
 如果连续 3 周没有贡献，推荐人会被请出智囊团。
