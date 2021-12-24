@@ -8,4 +8,4 @@
 |     |Shooter      |winky        |樊金辉     |Caos     |Joe       |CyberOrange  |Aaron        |
 |     |             |海绵          |Rain      |         |            |             |             |
 
-如果连续 3 周没有贡献，推荐人会被请出智囊团。
+如果推荐人连续 3 周没有贡献，会被取消推荐资格。
