@@ -6,6 +6,6 @@
 |推荐人|昊暠skyh     |Frozen       |Survivor  |陈锡亮    |Gala        |Sam          |Yan          |
 |     |Harry        |张晓-冰链科技 |北美开吻   |Collin   |0xMax        |Dream        |Zhangxuesong |
 |     |Shooter      |winky        |樊金辉     |Caos     |Joe       |CyberOrange  |Aaron        |
-|     |             |海绵          |Rain      |         |            |             |             |
+|     |             |海绵          |Rain      | Amagi    |            |             |             |
 
 如果推荐人连续 3 周没有贡献，会被取消推荐资格。
