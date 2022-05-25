@@ -86,7 +86,7 @@
 </body>
 
 <script>
-  $.get("https://db.rebase.network/web3daily/public/posts?_order=-id,-time", function(data) {
+  $.get("http://db.rebase.network/web3daily/public/posts?_order=-id,-time", function(data) {
 
     var source = $("#articleTpl").html();
     var template = Handlebars.compile(source);
