@@ -4,6 +4,9 @@
   "u_passwd":"",
   "auth_name":"",
   "auth_passwd":"",
+  "wp_url_posts": "",
+  "batch_endpoint":"",
+  "steinhq_api": "",
   "user":{
     "nana":"",
     "rebecca":"",

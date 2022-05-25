@@ -46,7 +46,9 @@ router.post('/pow', async (ctx, next) => {
   // https://stackoverflow.com/a/51616282/1240067
   Object.keys(postData).map(k => postData[k] = typeof postData[k] == 'string' ? postData[k].trim() : postData[k]);
 
-  const steinhqApi = "https://api.steinhq.com/v1/storages/5e73b903b88d3d04ae0815bb";
+  const batchEndpoint = conf.get('batch_endpoint')
+  const steinhqApi = conf.get('steinhq_api')
+
   const store = new SteinStore(steinhqApi);
 
   const now = getCurrTime();
@@ -56,38 +58,44 @@ router.post('/pow', async (ctx, next) => {
 
   const msg = await createDiscordMsg(epi, postData.editor, postData);
 
-  store.append("Summary", [
-    {
-      episode: epi,
-      time: now,
-      author: postData.author1,
-      title: postData.title1,
-      url: postData.url1,
-      introduce: postData.introduce1,
-    },
-    {
-      episode: epi,
-      time: now,
-      author: postData.author2,
-      title: postData.title2,
-      url: postData.url2,
-      introduce: postData.introduce2,
-    },
-    {
-      episode: epi,
-      time: now,
-      author: postData.author3,
-      title: postData.title3,
-      url: postData.url3,
-      introduce: postData.introduce3,
-    },
-    ])
+  var posts = [{
+    episode: epi,
+    time: now,
+    author: postData.author1,
+    title: postData.title1,
+    url: postData.url1,
+    introduce: postData.introduce1,
+  },
+  {
+    episode: epi,
+    time: now,
+    author: postData.author2,
+    title: postData.title2,
+    url: postData.url2,
+    introduce: postData.introduce2,
+  },
+  {
+    episode: epi,
+    time: now,
+    author: postData.author3,
+    title: postData.title3,
+    url: postData.url3,
+    introduce: postData.introduce3,
+  },]
+
+  fetch(batchEndpoint, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(posts),
+  })
+
+  store.append("Summary", posts)
     .then(res => {
       console.log(res);
-    });
+  });
 
-    const wxcontent = gen_wx_content(feedback, postData)
-    ctx.body = wxcontent;
+  const wxcontent = gen_wx_content(feedback, postData)
+  ctx.body = wxcontent;
 })
 
 app.use(router.routes(), router.allowedMethods());
@@ -103,18 +111,18 @@ function getCurrTime() { // 当前时间
 // Create WP post
 function crateWp(epi, editor, dx) {
 
-  const endpoint_url_posts = "https://rebase.network/wp-json/wp/v2/posts"
+  const wp_url_posts = conf.get('wp_url_posts')
 
   const p_status = "publish" // 直接发布
   const p_format = "gallery" // 展示方式
-  const p_featured_media = "1012" // 封面图片的id
-  const p_categories = "27" // 类别id
-  const p_tags = [30,32,31,28] // 类别id
+  const p_featured_media = "1012" // 封面图片的 id
+  const p_categories = "27" // 类别 id
+  const p_tags = [30,32,31,28] // 类别 id
 
   const editorid = "user." + editor
-  const p_author = conf.get(editorid) // 作者id
+  const p_author = conf.get(editorid) // 作者 id
 
-  const p_title = "Web3极客日报 " + epi + " | Rebase Network | Rebase社区";
+  const p_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区";
 
   const p_content = `
     <strong>1. ${dx.title1}</strong>
@@ -162,7 +170,7 @@ function crateWp(epi, editor, dx) {
 
   headers['Authorization'] = 'Basic ' + Buffer.from(u_id + ":" + u_passwd).toString('base64');
 
-  return fetch(endpoint_url_posts, {
+  return fetch(wp_url_posts, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(payload),
@@ -179,9 +187,9 @@ function crateWp(epi, editor, dx) {
 // Create Discord Msg
 function createDiscordMsg(epi, editor, dx) {
 
-  const endpoint_url_posts = "https://discord.com/api/webhooks/884879700248383541/SaChSV9vyEu3uSo2ZUJI2DfBunbCKs6cw4zUxIu_GXpz0njlDNyLAfmpEGQeeAqHXctZ"
+  const discord_url_posts = "https://discord.com/api/webhooks/884879700248383541/SaChSV9vyEu3uSo2ZUJI2DfBunbCKs6cw4zUxIu_GXpz0njlDNyLAfmpEGQeeAqHXctZ"
 
-  const p_title = "Web3极客日报 " + epi + " | Rebase Network | Rebase社区";
+  const p_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区";
 
   const p_content = `
     ${p_title}
@@ -217,7 +225,7 @@ function createDiscordMsg(epi, editor, dx) {
     'content-type': "Application/json",
   }
 
-  return fetch(endpoint_url_posts, {
+  return fetch(discord_url_posts, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(payload),
@@ -357,7 +365,7 @@ function gen_wx_content(content, dx){
       <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
       <hr style="max-width: 100%;border-style: solid;border-right-width: 0px;border-bottom-width: 0px;border-left-width: 0px;border-color: rgba(0, 0, 0, 0.098);transform-origin: 0px 0px 0px;transform: scale(1, 0.5);box-sizing: border-box !important;overflow-wrap: break-word !important;">
       <p style="max-width: 100%;min-height: 1em;color: rgb(53, 53, 53);font-size: 14px;text-align: start;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
-      <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">Web3极客日报是为Web3时代的极客们准备的日常读物，由一群极客协作完成，每天更新，每期包含三个推荐内容，都来自极客们各自关注的领域。每晚由 Rebase 志愿者整理发出。若有意参与内容贡献，请添加微信 ljyxxzj 并注明日报贡献。</span></p>
+      <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">Web3 极客日报是为 Web3 时代的极客们准备的日常读物，由一群极客协作完成，每天更新，每期包含三个推荐内容，都来自极客们各自关注的领域。每晚由 Rebase 志愿者整理发出。若有意参与内容贡献，请添加微信 ljyxxzj 并注明日报贡献。</span></p>
       <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
       <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
       <hr style="max-width: 100%;border-style: solid;border-right-width: 0px;border-bottom-width: 0px;border-left-width: 0px;border-color: rgba(0, 0, 0, 0.098);transform-origin: 0px 0px 0px;transform: scale(1, 0.5);box-sizing: border-box !important;overflow-wrap: break-word !important;">
