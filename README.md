@@ -7,7 +7,7 @@
 |     |sny          |张晓         |北美开吻   |Collin   |0xMax        |Dream        |Zhangxuesong |
 |     |Shooter      |Lucas        |樊金辉     |Caos     |Joe         |CyberOrange | Survivor    |
 |     |Harry        |Qi Zhou       |Mark     | Amagi    | Mark·R     | Koi        | Aaron Chi   |
-|     |             |              |         |          |            |            | Keven      |
+|     |             |              |         |          |            | 川川       | Keven      |
 
 如果推荐人连续 3 周没有贡献，会被取消推荐资格。
 
