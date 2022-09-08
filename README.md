@@ -2,7 +2,7 @@
 
 |日期|星期一|星期二|星期三|星期四|星期五|星期六|星期天|
 |:----|:----|:----|:----|:----|:----|:----|:----|
-|催更人|Jasmyn      |Nicole        |Rebecca   |黄岩     |Gala        |River        |林柒柒        |
+|催更人|Jasmyn      |Nicole        |Rebecca   |黄岩     |Frozen        |River        |林柒柒        |
 |推荐人|昊暠skyh     |Frozen       |Rain      |陈锡亮    |Gala        |Sam          |Yan          |
 |     |sny          |张晓         |北美开吻   |Collin   |0xMax        |Dream        |Zhangxuesong |
 |     |Shooter      |Lucas        |樊金辉     |Caos     |Joe         |CyberOrange | Survivor    |
