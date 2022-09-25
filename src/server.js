@@ -128,27 +128,27 @@ function crateWp(epi, editor, dx) {
     <strong>1. ${dx.title1}</strong>
     <a href="${dx.url1}" target="_blank">${dx.url1}</a>
 
-    @${dx.author1}：${dx.introduce1}
+    @${dx.author1}:${dx.introduce1}
     &nbsp;
 
     <strong>2. ${dx.title2}</strong>
     <a href="${dx.url2}" target="_blank">${dx.url2}</a>
 
-    @${dx.author2}：${dx.introduce2}
+    @${dx.author2}:${dx.introduce2}
     &nbsp;
 
     <strong>3. ${dx.title3}</strong>
     <a href="${dx.url3}" target="_blank">${dx.url3}</a>
 
-    @${dx.author3}：${dx.introduce3}
+    @${dx.author3}:${dx.introduce3}
     &nbsp;
 
     <!--more-->
 
     <strong><span class="" data-raw-text="W" data-textnode-index="24" data-index="486">W</span><span class="" data-raw-text="e" data-textnode-index="24" data-index="487">e</span><span class="" data-raw-text="b" data-textnode-index="24" data-index="488">b</span><span class="" data-raw-text="3" data-textnode-index="24" data-index="489">3</span><span class="" data-raw-text="极" data-textnode-index="24" data-index="490">极</span><span class="" data-raw-text="客" data-textnode-index="24" data-index="491">客</span><span class="" data-raw-text="日" data-textnode-index="24" data-index="492">日</span><span class="" data-raw-text="报" data-textnode-index="24" data-index="493">报</span></strong><span class="" data-raw-text="是" data-textnode-index="25" data-index="494">是</span><span class="" data-raw-text="为" data-textnode-index="25" data-index="495">为</span><span class="" data-raw-text="W" data-textnode-index="25" data-index="496">W</span><span class="" data-raw-text="e" data-textnode-index="25" data-index="497">e</span><span class="" data-raw-text="b" data-textnode-index="25" data-index="498">b</span><span class="" data-raw-text="3" data-textnode-index="25" data-index="499">3</span><span class="" data-raw-text="时" data-textnode-index="25" data-index="500">时</span><span class="" data-raw-text="代" data-textnode-index="25" data-index="501">代</span><span class="" data-raw-text="的" data-textnode-index="25" data-index="502">的</span><span class="" data-raw-text="极" data-textnode-index="25" data-index="503">极</span><span class="" data-raw-text="客" data-textnode-index="25" data-index="504">客</span><span class="" data-raw-text="们" data-textnode-index="25" data-index="505">们</span><span class="" data-raw-text="准" data-textnode-index="25" data-index="506">准</span><span class="" data-raw-text="备" data-textnode-index="25" data-index="507">备</span><span class="" data-raw-text="的" data-textnode-index="25" data-index="508">的</span><span class="" data-raw-text="一" data-textnode-index="25" data-index="509">一</span><span class="" data-raw-text="份" data-textnode-index="25" data-index="510">份</span><span class="" data-raw-text="日" data-textnode-index="25" data-index="511">日</span><span class="" data-raw-text="报" data-textnode-index="25" data-index="512">报</span><span class="" data-raw-text="，" data-textnode-index="25" data-index="513">，</span><span class="" data-raw-text="它" data-textnode-index="25" data-index="514">它</span><span class="" data-raw-text="是" data-textnode-index="25" data-index="515">是</span><span class="" data-raw-text="由" data-textnode-index="25" data-index="516">由</span><span class="" data-raw-text="一" data-textnode-index="25" data-index="517">一</span><span class="" data-raw-text="群" data-textnode-index="25" data-index="518">群</span><span class="" data-raw-text="极" data-textnode-index="25" data-index="519">极</span><span class="" data-raw-text="客" data-textnode-index="25" data-index="520">客</span><span class="" data-raw-text="们" data-textnode-index="25" data-index="521">们</span><span class="" data-raw-text="推" data-textnode-index="25" data-index="522">推</span><span class="" data-raw-text="荐" data-textnode-index="25" data-index="523">荐</span><span class="" data-raw-text="他" data-textnode-index="25" data-index="524">他</span><span class="" data-raw-text="们" data-textnode-index="25" data-index="525">们</span><span class="" data-raw-text="认" data-textnode-index="25" data-index="526">认</span><span class="" data-raw-text="为" data-textnode-index="25" data-index="527">为</span><span class="" data-raw-text="有" data-textnode-index="25" data-index="528">有</span><span class="" data-raw-text="价" data-textnode-index="25" data-index="529">价</span><span class="" data-raw-text="值" data-textnode-index="25" data-index="530">值</span><span class="" data-raw-text="的" data-textnode-index="25" data-index="531">的</span><span class="" data-raw-text="内" data-textnode-index="25" data-index="532">内</span><span class="" data-raw-text="容" data-textnode-index="25" data-index="533">容</span><span class="" data-raw-text="并" data-textnode-index="25" data-index="534">并</span><span class="" data-raw-text="附" data-textnode-index="25" data-index="535">附</span><span class="" data-raw-text="上" data-textnode-index="25" data-index="536">上</span><span class="" data-raw-text="一" data-textnode-index="25" data-index="537">一</span><span class="" data-raw-text="段" data-textnode-index="25" data-index="538">段</span><span class="" data-raw-text="推" data-textnode-index="25" data-index="539">推</span><span class="" data-raw-text="荐" data-textnode-index="25" data-index="540">荐</span><span class="" data-raw-text="语" data-textnode-index="25" data-index="541">语</span><span class="" data-raw-text="，" data-textnode-index="25" data-index="542">，</span><span class="" data-raw-text="最" data-textnode-index="25" data-index="543">最</span><span class="" data-raw-text="后" data-textnode-index="25" data-index="544">后</span><span class="" data-raw-text="通" data-textnode-index="25" data-index="545">通</span><span class="" data-raw-text="过" data-textnode-index="25" data-index="546">过</span><span class="" data-raw-text="R" data-textnode-index="25" data-index="547">R</span><span class="" data-raw-text="e" data-textnode-index="25" data-index="548">e</span><span class="" data-raw-text="b" data-textnode-index="25" data-index="549">b</span><span class="" data-raw-text="a" data-textnode-index="25" data-index="550">a</span><span class="" data-raw-text="s" data-textnode-index="25" data-index="551">s</span><span class="" data-raw-text="e" data-textnode-index="25" data-index="552">e</span><span class="" data-raw-text="的" data-textnode-index="25" data-index="553">的</span><span class="" data-raw-text="成" data-textnode-index="25" data-index="554">成</span><span class="" data-raw-text="员" data-textnode-index="25" data-index="555">员</span><span class="" data-raw-text="整" data-textnode-index="25" data-index="556">整</span><span class="" data-raw-text="理" data-textnode-index="25" data-index="557">理</span><span class="" data-raw-text="编" data-textnode-index="25" data-index="558">编</span><span class="" data-raw-text="辑" data-textnode-index="25" data-index="559">辑</span><span class="" data-raw-text="。" data-textnode-index="25" data-index="560">。</span>
 
-    网站：https://rebase.network
-    公众号：rebase_network
+    网站:https://rebase.network
+    公众号:rebase_network
   `
   const payload = {
     'title': p_title,
@@ -179,7 +179,7 @@ function crateWp(epi, editor, dx) {
     .then(json => {
       console.log("url =>", json.permalink_template)
 
-      return `直接复制以下内容到微信公众号，标题：${p_title}，原文链接：${json.permalink_template}`;
+      return `直接复制以下内容到微信公众号，标题:${p_title}，原文链接:${json.permalink_template}`;
     });
 
 }
@@ -197,25 +197,25 @@ function createDiscordMsg(epi, editor, dx) {
     1. ${dx.title1}
     ${dx.url1}
 
-    @${dx.author1}：${dx.introduce1}
+    @${dx.author1}:${dx.introduce1}
     &nbsp;
 
     2. ${dx.title2}
     ${dx.url2}
 
-    @${dx.author2}：${dx.introduce2}
+    @${dx.author2}:${dx.introduce2}
     &nbsp;
 
     3. ${dx.title3}
     ${dx.url3}
 
-    @${dx.author3}：${dx.introduce3}
+    @${dx.author3}:${dx.introduce3}
     &nbsp;
 
     <!--more-->
 
-    网站：https://rebase.network
-    公众号：rebase_network
+    网站:https://rebase.network
+    公众号:rebase_network
   `
   const payload = {
     'content': p_content
@@ -275,7 +275,7 @@ function gen_wx_content(content, dx){
 
           <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
             <span style="color: rgb(0, 0, 0);font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif;letter-spacing: 1.4px;text-align: left;background-color: rgb(247, 247, 247);">
-              <strong>${dx.author1}</strong>：
+              <strong>${dx.author1}</strong>:
             </span>
 
             <span style="color: rgb(0, 0, 0);">
@@ -312,7 +312,7 @@ function gen_wx_content(content, dx){
           <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
             <span style="color: rgb(0, 0, 0);font-size: 16px;">
               <span style="color: rgb(0, 0, 0);font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif;letter-spacing: 1.4px;text-align: left;background-color: rgb(247, 247, 247);">
-                <strong>${dx.author2}</strong>：
+                <strong>${dx.author2}</strong>:
               </span>
             </span>
 
@@ -350,7 +350,7 @@ function gen_wx_content(content, dx){
           <p style="-webkit-tap-highlight-color: transparent;color: rgb(80, 80, 80);line-height: 1.75;font-size: 1em;letter-spacing: 0.1em;">
             <span style="color: rgb(0, 0, 0);font-size: 16px;">
               <span style="color: rgb(0, 0, 0);font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif;letter-spacing: 1.4px;text-align: left;background-color: rgb(247, 247, 247);">
-                <strong>${dx.author3}</strong>：
+                <strong>${dx.author3}</strong>:
               </span>
             </span>
 
@@ -370,8 +370,8 @@ function gen_wx_content(content, dx){
       <p style="max-width: 100%;min-height: 1em;letter-spacing: 0.544px;color: rgb(53, 53, 53);font-size: 14px;text-align: start;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
       <hr style="max-width: 100%;border-style: solid;border-right-width: 0px;border-bottom-width: 0px;border-left-width: 0px;border-color: rgba(0, 0, 0, 0.098);transform-origin: 0px 0px 0px;transform: scale(1, 0.5);box-sizing: border-box !important;overflow-wrap: break-word !important;">
       <p style="max-width: 100%;min-height: 1em;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
-      <p style="max-width: 100%;min-height: 1em;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">网站：</strong><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">https://rebase.network</strong></span></p>
-      <p style="max-width: 100%;min-height: 1em;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">公众号：</strong><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">rebase_network</strong></span></p>
+      <p style="max-width: 100%;min-height: 1em;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">网站:</strong><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">https://rebase.network</strong></span></p>
+      <p style="max-width: 100%;min-height: 1em;text-align: center;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">公众号:</strong><strong style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">rebase_network</strong></span></p>
       <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
       <p style="max-width: 100%;min-height: 1em;color: rgb(53, 53, 53);font-size: 14px;text-align: center;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><img class="rich_pages img_loading" data-ratio="1" data-s="300,640" data-type="png" data-w="372" data-src="https://mmbiz.qpic.cn/mmbiz_png/dQFmOEibdOIKVOj71RpnXzn8Tr4FaCggj0LDicic24267jickINQpwKjNSWo92oMn7M5phnyIuV5FIcbKzicMje0ZHw/640?wx_fmt=png" style="box-sizing: border-box !important; overflow-wrap: break-word !important; visibility: visible !important; width: 223px !important; height: 223px !important;" _width="223px" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" crossorigin="anonymous"></p>
     </div>
