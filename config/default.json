@@ -7,6 +7,8 @@
   "wp_url_posts": "",
   "batch_endpoint":"",
   "steinhq_api": "",
+  "wx_app_id": "",
+  "wx_app_secret": "",
   "user":{
     "nana":"",
     "rebecca":"",

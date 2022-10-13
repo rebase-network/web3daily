@@ -14,6 +14,11 @@ const SteinStore = require("stein-js-client");
 
 const conf = require('config');
 
+const wxConfig = {
+  "appId": conf.get('wx_app_id'),
+  "appSecret": conf.get('wx_app_secret'),
+}
+
 const app = new Koa();
 
 // custom 401 handling
@@ -56,7 +61,7 @@ router.post('/pow', async (ctx, next) => {
   const now = getCurrTime();
   const epi = "#" + postData.episode;
 
-  const feedback = await crateWp(epi, postData.editor, postData);
+  const wp_article_url = await crateWp(epi, postData.editor, postData);
 
   var posts = [{
     episode: epi,
@@ -98,11 +103,15 @@ router.post('/pow', async (ctx, next) => {
 
   const wxcontent = gen_wx_content(postData)
 
-  const access_token = ""
+  const wx = new Wechat(wxConfig)
+  const access_token = await wx.jssdk.getAccessToken()
+  console.log(`access_token: ${access_token}`)
 
-  gen_wx_draft_article(access_token, feedback.title, feedback.link, wxcontent)
+  const article_title = "Web3 极客日报 " + epi
+  gen_wx_draft_article(access_token, article_title, wp_article_url, wxcontent)
+  console.log(`wp_article_url: ${wp_article_url}`)
 
-  ctx.body = "请查看 https://mp.weixin.qq.com/"
+  ctx.body = '微信草稿文章已生成，请使用<a target="_blank" href="https://mp.weixin.qq.com/">微信公众号后台</a>或订阅号助手App 查看。'
 })
 
 app.use(router.routes(), router.allowedMethods());
@@ -111,7 +120,9 @@ const port = conf.get('port');
 
 app.listen(port, () => console.log("\n\nrunning on port http://localhost:" + port));
 
-function getCurrTime() { // 当前时间
+////////////////////////////////
+
+function getCurrTime() {
   return moment(new Date()).format("YYYY-MM-DD")
 }
 
@@ -122,7 +133,7 @@ function crateWp(epi, editor, dx) {
 
   const p_status = "publish" // 直接发布
   const p_format = "gallery" // 展示方式
-  const p_featured_media = "1012" // 封面图片的 id
+  const p_featured_media = "1012" // 封面图片 id
   const p_categories = "27" // 类别 id
   const p_tags = [30,32,31,28] // 类别 id
 
@@ -184,12 +195,10 @@ function crateWp(epi, editor, dx) {
     })
     .then(resp => resp.json())
     .then(result => {
-      console.log("url =>", result.permalink_template)
-      return {title: p_title, link: result.permalink_template}
+      console.log(`wp url: ${result.permalink_template}`)
+      return result.permalink_template
     });
-
 }
-
 // Create Discord Msg
 // not sending msg to Discord
 function createDiscordMsg(epi, editor, dx) {
@@ -250,7 +259,7 @@ function gen_wx_content(dx) {
   let wx_content =`
     <div class="rich_media_content" style="visibility: visible; margin: 5px 8px;">
       <h2 style="margin-bottom: 14px;font-size: 22px;line-height: 1.4;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-align: start;white-space: normal;background-color: rgb(255, 255, 255);">
-          <span style="margin: 5px 8px; font-size: 15px;">微信不支持外部链接，可以点击文章底部的<strong data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start; box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__1" style="font-size: 15px;max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">阅读原文</strong><span data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start;" class="js_darkmode__2" style="max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+          <span style="margin-top: 5px; font-size: 15px;">微信不支持外部链接，可以点击文章底部的<strong data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start; box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__1" style="font-size: 15px;max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">阅读原文</strong><span data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start;" class="js_darkmode__2" style="max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
           ，方便阅读文中的链接，也可通过 https://daily.rebase.network/ 浏览每期日报内容。</span></span></h2>
 
           <blockquote style="margin: 2em 8px; -webkit-tap-highlight-color: transparent; font-size: 14px; white-space: normal; text-align: left; color: rgba(0, 0, 0, 0.5); line-height: 1.75; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif; border-left: none; padding: 1em; border-radius: 8px; background: rgb(247, 247, 247);" data-mpa-powered-by="yiban.io">
@@ -380,7 +389,7 @@ function gen_wx_content(dx) {
   `
   return wx_content;
 }
- 
+
 function gen_wx_draft_article(access_token, title, source_url, draft_content) {
 
   const headers = {
@@ -407,6 +416,6 @@ function gen_wx_draft_article(access_token, title, source_url, draft_content) {
     headers: headers,
     body: JSON.stringify(articles)
   })
-  .then(resp)
+  .then(resp => resp)
   .then(json => console.log(json));
 }
