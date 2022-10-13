@@ -24,7 +24,8 @@
     "koa-basic-auth": "^4.0.0",
     "koa-bodyparser": "^2.5.0",
     "moment": "^2.25.3",
-    "node-fetch": "^2.6.0",
-    "stein-js-client": "0.0.2"
+    "node-fetch": "2.6.6",
+    "stein-js-client": "0.0.2",
+    "wechat-jssdk": "^5.0.8"
   }
 }
