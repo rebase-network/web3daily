@@ -56,8 +56,6 @@ router.post('/pow', async (ctx, next) => {
 
   const feedback = await crateWp(epi, postData.editor, postData);
 
-  const msg = await createDiscordMsg(epi, postData.editor, postData);
-
   var posts = [{
     episode: epi,
     time: now,
@@ -185,6 +183,7 @@ function crateWp(epi, editor, dx) {
 }
 
 // Create Discord Msg
+// not sending msg to Discord
 function createDiscordMsg(epi, editor, dx) {
 
   const discord_url_posts = "https://discord.com/api/webhooks/884879700248383541/SaChSV9vyEu3uSo2ZUJI2DfBunbCKs6cw4zUxIu_GXpz0njlDNyLAfmpEGQeeAqHXctZ"
