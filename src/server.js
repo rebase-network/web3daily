@@ -1,16 +1,18 @@
 const fs = require('fs');
 const path = require("path");
-const conf = require('config');
 
 const Koa = require('koa');
 const router = require('@koa/router')();
 const bodyParser = require('koa-bodyparser');
 const auth = require('koa-basic-auth');
 
-const fetch = require('node-fetch');
 const moment = require('moment');
+const fetch = require('node-fetch');
+const { Wechat } = require('wechat-jssdk');
 
 const SteinStore = require("stein-js-client");
+
+const conf = require('config');
 
 const app = new Koa();
 
@@ -94,8 +96,13 @@ router.post('/pow', async (ctx, next) => {
       console.log(res);
   });
 
-  const wxcontent = gen_wx_content(feedback, postData)
-  ctx.body = wxcontent;
+  const wxcontent = gen_wx_content(postData)
+
+  const access_token = ""
+
+  gen_wx_draft_article(access_token, feedback.title, feedback.link, wxcontent)
+
+  ctx.body = "请查看 https://mp.weixin.qq.com/"
 })
 
 app.use(router.routes(), router.allowedMethods());
@@ -175,11 +182,10 @@ function crateWp(epi, editor, dx) {
       headers: headers,
       body: JSON.stringify(payload),
     })
-    .then(res => res.json())
-    .then(json => {
-      console.log("url =>", json.permalink_template)
-
-      return `直接复制以下内容到微信公众号，标题:${p_title}，原文链接:${json.permalink_template}`;
+    .then(resp => resp.json())
+    .then(result => {
+      console.log("url =>", result.permalink_template)
+      return {title: p_title, link: result.permalink_template}
     });
 
 }
@@ -240,13 +246,8 @@ function createDiscordMsg(epi, editor, dx) {
 }
 
 // Create WX chat content
-function gen_wx_content(content, dx){
+function gen_wx_content(dx) {
   let wx_content =`
-    <div>${content} </div>
-
-    <br/>
-    <br/>
-
     <div class="rich_media_content" style="visibility: visible; margin: 5px 8px;">
       <h2 style="margin-bottom: 14px;font-size: 22px;line-height: 1.4;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-align: start;white-space: normal;background-color: rgb(255, 255, 255);">
           <span style="margin: 5px 8px; font-size: 15px;">微信不支持外部链接，可以点击文章底部的<strong data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start; box-sizing: border-box !important; overflow-wrap: break-word !important;" class="js_darkmode__1" style="font-size: 15px;max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">阅读原文</strong><span data-darkmode-bgcolor="rgb(36, 36, 36)" data-darkmode-color="rgb(150, 162, 172)" data-style="max-width: 100%; background-color: rgb(255, 255, 255); color: rgb(61, 70, 77); font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif; letter-spacing: 0.544px; text-align: start;" class="js_darkmode__2" style="max-width: 100%;letter-spacing: 0.544px;color: rgb(61, 70, 77);font-family: suxingme, &quot;Open Sans&quot;, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, STHeiti, &quot;WenQuanYi Micro Hei&quot;, SimSun, sans-serif;visibility: visible;box-sizing: border-box !important;overflow-wrap: break-word !important;">
@@ -378,4 +379,34 @@ function gen_wx_content(content, dx){
     </div>
   `
   return wx_content;
+}
+ 
+function gen_wx_draft_article(access_token, title, source_url, draft_content) {
+
+  const headers = {
+    "Content-type": "text/plain; charset=utf-8",
+  }
+
+  server_url = `https://api.weixin.qq.com/cgi-bin/draft/add?access_token=${access_token}`
+
+  const THUMB_MEDIA_ID = "19tthKh2vyLqNoMEsUO9x967IAoF_4a83UXn8Nb-ORLuG15OnT_p6j9Y_ztuoD68"
+
+  const articles = {
+    'articles': [{
+      "title": title,
+      "thumb_media_id": THUMB_MEDIA_ID,
+      "author": "rebase",
+      "show_cover_pic": 1,
+      "content": draft_content,
+      "content_source_url": source_url,
+    }]
+  }
+
+  fetch(server_url, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(articles)
+  })
+  .then(resp)
+  .then(json => console.log(json));
 }
