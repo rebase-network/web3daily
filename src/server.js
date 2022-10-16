@@ -81,6 +81,8 @@ router.post('/pow', async (ctx, next) => {
     introduce: postData.introduce3,
   },]
 
+  let headers = {'content-type': "application/json",}
+
   fetch(batchEndpoint, {
     method: 'POST',
     headers: headers,
