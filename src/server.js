@@ -53,17 +53,12 @@ router.post('/pow', async (ctx, next) => {
   // https://stackoverflow.com/a/51616282/1240067
   Object.keys(postData).map(k => postData[k] = typeof postData[k] == 'string' ? postData[k].trim() : postData[k]);
 
-  const batchEndpoint = conf.get('batch_endpoint')
-  const steinhqApi = conf.get('steinhq_api')
-
-  const store = new SteinStore(steinhqApi);
-
   const now = getCurrTime();
   const epi = "#" + postData.episode;
 
-  const wp_article_url = await crateWp(epi, postData.editor, postData);
+  const wp_post_url = await crateWp(epi, postData.editor, postData);
 
-  var posts = [{
+  const posts = [{
     episode: epi,
     time: now,
     author: postData.author1,
@@ -88,30 +83,36 @@ router.post('/pow', async (ctx, next) => {
     introduce: postData.introduce3,
   },]
 
-  let headers = {'content-type': "application/json",}
+  insertDB(posts)
 
-  fetch(batchEndpoint, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(posts),
-  })
+  insertSheet(posts)
 
-  store.append("Summary", posts)
-    .then(res => {
-      console.log(res);
-  });
-
-  const wxcontent = gen_wx_content(postData)
+  const wxcontent = genWxContent(postData)
 
   const wx = new Wechat(wxConfig)
-  const access_token = await wx.jssdk.getAccessToken()
-  console.log(`access_token: ${access_token}`)
+  let access_token = ""
 
-  const article_title = "Web3 极客日报 " + epi
-  gen_wx_draft_article(access_token, article_title, wp_article_url, wxcontent)
-  console.log(`wp_article_url: ${wp_article_url}`)
+  const _res = await wx.jssdk.getAccessToken()
+  if (_res['access_token']){
+    access_token = _res['access_token']
+  } else {
+    console.error(`not got access_token`)
+  }
 
-  ctx.body = '微信草稿文章已生成，请使用<a target="_blank" href="https://mp.weixin.qq.com/">微信公众号后台</a>或订阅号助手App 查看。'
+  console.log(`access_token: ${JSON.stringify(access_token)}`)
+
+  const post_title = "Web3 极客日报 " + epi
+  genWxDraftPost(access_token, post_title, wp_post_url, wxcontent)
+  console.log(`wp_post_url: ${wp_post_url}`)
+
+  ctx.response.type = 'html'
+  ctx.body = `微信草稿文章已生成，请使用 <a target='_blank' href='https://mp.weixin.qq.com/'>微信公众号后台</a> 或 <b>订阅号助手App</b> 查看。
+  
+  <br/>
+  <br/>
+  <br/>
+  ${wxcontent}
+  `
 })
 
 app.use(router.routes(), router.allowedMethods());
@@ -126,7 +127,27 @@ function getCurrTime() {
   return moment(new Date()).format("YYYY-MM-DD")
 }
 
-// Create WP post
+function insertDB(posts) {
+  const batchEndpoint = conf.get('batch_endpoint')
+  const headers = {'content-type': "application/json",}
+
+  fetch(batchEndpoint, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(posts),
+  })
+}
+
+function insertSheet() {
+  const steinhqApi = conf.get('steinhq_api')
+  const store = new SteinStore(steinhqApi)
+  
+  store.append("Summary", posts).then(res => {
+    console.log(res);
+  });
+}
+
+// Create WP Post
 function crateWp(epi, editor, dx) {
 
   const wp_url_posts = conf.get('wp_url_posts')
@@ -182,9 +203,7 @@ function crateWp(epi, editor, dx) {
   const u_id = conf.get('u_id') // 用户名
   const u_passwd = conf.get('u_passwd') // 使用 https://wordpress.org/plugins/application-passwords/ 得到密码
 
-  let headers = {
-    'content-type': "Application/json",
-  }
+  let headers = {'content-type': "application/json",}
 
   headers['Authorization'] = 'Basic ' + Buffer.from(u_id + ":" + u_passwd).toString('base64');
 
@@ -199,6 +218,7 @@ function crateWp(epi, editor, dx) {
       return result.permalink_template
     });
 }
+
 // Create Discord Msg
 // not sending msg to Discord
 function createDiscordMsg(epi, editor, dx) {
@@ -237,10 +257,8 @@ function createDiscordMsg(epi, editor, dx) {
     'content': p_content
   }
 
-  let headers = {
-    'content-type': "Application/json",
-  }
-
+  const headers = {'content-type': "application/json",}
+  
   return fetch(discord_url_posts, {
       method: 'POST',
       headers: headers,
@@ -254,8 +272,38 @@ function createDiscordMsg(epi, editor, dx) {
     });
 }
 
-// Create WX chat content
-function gen_wx_content(dx) {
+function genWxDraftPost(access_token, title, source_url, draft_content) {
+
+  const headers = {
+    "content-type": "text/plain; charset=utf-8",
+  }
+
+  server_url = `https://api.weixin.qq.com/cgi-bin/draft/add?access_token=${access_token}`
+
+  const THUMB_MEDIA_ID = "19tthKh2vyLqNoMEsUO9x967IAoF_4a83UXn8Nb-ORLuG15OnT_p6j9Y_ztuoD68"
+
+  const articles = {
+    'articles': [{
+      "title": title,
+      "thumb_media_id": THUMB_MEDIA_ID,
+      "author": "rebase",
+      "show_cover_pic": 1,
+      "content": draft_content,
+      "content_source_url": source_url,
+    }]
+  }
+
+  fetch(server_url, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(articles)
+  })
+  .then(resp => resp)
+  .then(json => console.log(json));
+}
+
+// Create Wx post content
+function genWxContent(dx) {
   let wx_content =`
     <div class="rich_media_content" style="visibility: visible; margin: 5px 8px;">
       <h2 style="margin-bottom: 14px;font-size: 22px;line-height: 1.4;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-align: start;white-space: normal;background-color: rgb(255, 255, 255);">
@@ -388,34 +436,4 @@ function gen_wx_content(dx) {
     </div>
   `
   return wx_content;
-}
-
-function gen_wx_draft_article(access_token, title, source_url, draft_content) {
-
-  const headers = {
-    "Content-type": "text/plain; charset=utf-8",
-  }
-
-  server_url = `https://api.weixin.qq.com/cgi-bin/draft/add?access_token=${access_token}`
-
-  const THUMB_MEDIA_ID = "19tthKh2vyLqNoMEsUO9x967IAoF_4a83UXn8Nb-ORLuG15OnT_p6j9Y_ztuoD68"
-
-  const articles = {
-    'articles': [{
-      "title": title,
-      "thumb_media_id": THUMB_MEDIA_ID,
-      "author": "rebase",
-      "show_cover_pic": 1,
-      "content": draft_content,
-      "content_source_url": source_url,
-    }]
-  }
-
-  fetch(server_url, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(articles)
-  })
-  .then(resp => resp)
-  .then(json => console.log(json));
 }
