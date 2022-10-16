@@ -106,8 +106,8 @@ router.post('/pow', async (ctx, next) => {
   console.log(`wp_post_url: ${wp_post_url}`)
 
   ctx.response.type = 'html'
-  ctx.body = `微信草稿文章已生成，请使用 <a target='_blank' href='https://mp.weixin.qq.com/'>微信公众号后台</a> 或 <b>订阅号助手App</b> 查看。
-  
+  ctx.body = `微信草稿文章已生成，请使用 <a target='_blank' href='https://mp.weixin.qq.com/'>微信公众号后台</a> 或 <b>订阅号助手 App</b> 查看。
+
   <br/>
   <br/>
   <br/>
@@ -138,10 +138,10 @@ function insertDB(posts) {
   })
 }
 
-function insertSheet() {
+function insertSheet(posts) {
   const steinhqApi = conf.get('steinhq_api')
   const store = new SteinStore(steinhqApi)
-  
+
   store.append("Summary", posts).then(res => {
     console.log(res);
   });
@@ -258,7 +258,7 @@ function createDiscordMsg(epi, editor, dx) {
   }
 
   const headers = {'content-type': "application/json",}
-  
+
   return fetch(discord_url_posts, {
       method: 'POST',
       headers: headers,
