@@ -1,7 +1,7 @@
 ---
-name: Web3极客日报推荐
+name: Web3 极客日报推荐
 about: Describe this issue template's purpose here.
-title: Web3极客日报推荐
+title: Web3 极客日报推荐
 labels: ''
 assignees: ''
 
