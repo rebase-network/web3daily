@@ -4,8 +4,8 @@
 
 |日期   | 星期一 | 星期二 | 星期三 | 星期四 | 星期五 | 星期六 | 星期日|
 |:---- |:----|:----|:----|:----|:----|:----|:----|
-|催更人 | Jasmyn       | Nicole   | Rebecca  | 黄岩     | 呇呇     | River    | 林柒柒      |
-|推荐人 | 昊暠 skyh     | 北美开吻  | Rain     | 陈锡亮   | Gala     |  Caos    | Yan        |
+|催更人 | Jasmyn       | Nicole   | Rebecca  | 黄岩     | 呇呇     | wz       | 林柒柒      |
+|推荐人 | 昊暠 skyh     | 北美开吻  | Rain     | 陈锡亮   | Gala     | Caos     | Yan        |
 |      | sny          | 张晓      | Frozen   | Collin  | 0xMax   | Dream     | Shooter    |
 |      | Zhangxuesong | Lucas    | 樊金辉    | Sam     | Sun     | Survivor  | CyberOrange|
 |      | Harry        | Qi Zhou  | Mark     | Amagi   | Mark·R  | Koi       | Aaron Chi  |
