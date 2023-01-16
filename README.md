@@ -8,7 +8,7 @@
 |:---- |:----|:----|:----|:----|:----|:----|:----|
 |催更人 | Shooter       | Nicole   | Rebecca  | 黄岩     | 呇呇    | wz       | 林柒柒      |
 |推荐人 | Survivor      | 北美开吻  | Rain     | 陈锡亮   | Gala    | Caos     | Keven      |
-|      | sny          | Rex      | Frozen   | Collin  | 0xMax   | Dream     | Shooter    |
+|      | msfew         | Rex      | Frozen   | Collin  | 0xMax   | Dream     | Shooter    |
 |      | Zhangxuesong | Lucas    | 樊金辉    | Sam     | Harry   | 昊暠 skyh  | CyberOrange|
 |      | Sun          | Qi Zhou  | Mark     | Amagi   | Mark·R  | Koi       | Aaron Chi  |
 |      | 李一笑        |          | Joe      |         | 川川     |           |  张晓      |
