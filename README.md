@@ -2,11 +2,11 @@
 
 [![Twitter](https://img.shields.io/twitter/url?label=Rebase&url=https%3A%2F%2Ftwitter.com%2FRebaseCommunity)](https://twitter.com/RebaseCommunity)
 
-## 催更表
+## 协作表
 
 |日期   | 星期一 | 星期二 | 星期三 | 星期四 | 星期五 | 星期六 | 星期日|
 |:---- |:----|:----|:----|:----|:----|:----|:----|
-|催更人 | Essie        | Nicole   | Rebecca  | 黄岩     | 呇呇    | wz       | 林柒柒      |
+|负责人 | Essie        | Nicole   | Rebecca  | 黄岩     | 呇呇    | wz       | 林柒柒      |
 |推荐人 | Survivor     | 北美开吻  | Mark     | 陈锡亮   | Gala    | Caos     | 张晓        |
 |      | msfew         | Rex     | Frozen    | Collin  | 0xMax   | Dream     | Shooter    |
 |      | Zhangxuesong | Lucas    | 樊金辉     | Sam     | Harry   | 昊暠 skyh  | CyberOrange|
