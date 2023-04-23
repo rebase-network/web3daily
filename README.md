@@ -10,7 +10,7 @@
 |推荐人 | Survivor     | 北美开吻  | Mark     | 陈锡亮   | Gala    | Caos     | 张晓        |
 |      | msfew         | Rex     | Frozen    | Collin  | 0xMax   | Dream     | Shooter    |
 |      | Zhangxuesong | Lucas    | 樊金辉     | Sam     | Harry   | 昊暠 skyh  | CyberOrange|
-|      | Sun          | Qi Zhou  | Andrew     | Amagi   | Mark·R  |           | Aaron Chi  |
+|      | Sun          | Qi Zhou  | Andrew     | Amagi   | Mark·R  | Yodully   | Aaron Chi  |
 |      | 李一笑        |          |           |         |          |           |            |
 
 
