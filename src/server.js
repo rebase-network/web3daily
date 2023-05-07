@@ -10,6 +10,10 @@ const auth = require('koa-basic-auth');
 const fetch = require('node-fetch');
 const moment = require('moment');
 
+function getCurrTime() {
+  return moment(new Date()).format("YYYY-MM-DD")
+}
+
 const SteinStore = require("stein-js-client");
 
 const app = new Koa();
@@ -20,43 +24,44 @@ app.use(async (ctx, next) => {
     await next();
   } catch (err) {
     if (401 == err.status) {
-      ctx.status = 401;
-      ctx.set('WWW-Authenticate', 'Basic');
-      ctx.body = 'Access Denied';
+      ctx.status = 401
+      ctx.set('WWW-Authenticate', 'Basic')
+      ctx.body = 'Access Denied'
     } else {
-      throw err;
+      throw err
     }
   }
 });
 
 // require auth
-app.use(auth({ name: conf.get('auth_name'), pass: conf.get('auth_passwd') }));
+app.use(auth({ name: conf.get('auth_name'), pass: conf.get('auth_passwd') }))
 
 app.use(bodyParser());
 
 router.get('/', (ctx, next) => {
   ctx.response.type = 'html';
-  ctx.response.body = fs.createReadStream(path.join(__dirname, "/views/index.html"));
+  ctx.response.body = fs.createReadStream(path.join(__dirname, "/views/index.html"))
 })
 
 router.post('/pow', async (ctx, next) => {
 
-  let postData = ctx.request.body;
+  let postData = ctx.request.body
 
   // https://stackoverflow.com/a/51616282/1240067
-  Object.keys(postData).map(k => postData[k] = typeof postData[k] == 'string' ? postData[k].trim() : postData[k]);
+  Object.keys(postData).map(k => postData[k] = typeof postData[k] == 'string' ? postData[k].trim() : postData[k])
 
-  const batchEndpoint = conf.get('batch_endpoint')
-  const steinhqApi = conf.get('steinhq_api')
+  const dbBatchUrl = conf.get('db_batch_url')
+  const steinhqUrl = conf.get('steinhq_url')
 
-  const store = new SteinStore(steinhqApi);
+  const store = new SteinStore(steinhqUrl)
 
-  const now = getCurrTime();
-  const epi = "#" + postData.episode;
+  const now = getCurrTime()
+  const epi = "#" + postData.episode
 
-  const feedback = await crateWp(epi, postData.editor, postData);
+  const wpFeedback = await createWpPost(epi, postData.editor, postData)
+  const learnblockchainFeedback = await createLearnblockchainPost(epi, postData)
 
-  var posts = [{
+  let posts = [{
     episode: epi,
     time: now,
     author: postData.author1,
@@ -81,20 +86,20 @@ router.post('/pow', async (ctx, next) => {
     introduce: postData.introduce3,
   },]
 
-  let headers = {'content-type': "application/json",}
-
-  fetch(batchEndpoint, {
+  // push data to postgreSQL DB
+  fetch(dbBatchUrl, {
     method: 'POST',
-    headers: headers,
+    headers: {'content-type': "application/json"},
     body: JSON.stringify(posts),
   })
 
+  // push data to google sheets
   store.append("Summary", posts)
     .then(res => {
       console.log(res);
   });
 
-  const wxcontent = gen_wx_content(feedback, postData)
+  const wxcontent = genWxContent(wpFeedback, postData)
   ctx.body = wxcontent;
 })
 
@@ -102,16 +107,60 @@ app.use(router.routes(), router.allowedMethods());
 
 const port = conf.get('port');
 
-app.listen(port, () => console.log("\n\nrunning on port http://localhost:" + port));
+app.listen(port, () => console.log("\n\nrunning on port http://localhost:" + port))
 
-function getCurrTime() { // 当前时间
-  return moment(new Date()).format("YYYY-MM-DD")
+
+// Push Discord Msg
+// Do not sending msg to Discord
+function pushDiscordMsg(epi, dx) {
+
+  const pushMsgToDiscordUrl = conf.get('push_msg_to_discord_url')
+
+  const d_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区"
+
+  const d_content = `
+    ${d_title}
+
+    1. ${dx.title1}
+    ${dx.url1}
+
+    @${dx.author1}:${dx.introduce1}
+    &nbsp;
+
+    2. ${dx.title2}
+    ${dx.url2}
+
+    @${dx.author2}:${dx.introduce2}
+    &nbsp;
+
+    3. ${dx.title3}
+    ${dx.url3}
+
+    @${dx.author3}:${dx.introduce3}
+    &nbsp;
+
+    <!--more-->
+
+    网站:https://rebase.network
+    公众号:rebase_network
+  `
+  return fetch(pushMsgToDiscordUrl, {
+      method: 'POST',
+      headers: {'content-type': "application/json"},
+      body: JSON.stringify({ 'content': d_content }),
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log("dicord res =>", json)
+
+      return `Success`
+    });
 }
 
-// Create WP post
-function crateWp(epi, editor, dx) {
+// Create WP Post
+function createWpPost(epi, editor, dx) {
 
-  const wp_url_posts = conf.get('wp_url_posts')
+  const wpUrlPosts = conf.get('wp_url_posts')
 
   const p_status = "publish" // 直接发布
   const p_format = "gallery" // 展示方式
@@ -122,7 +171,7 @@ function crateWp(epi, editor, dx) {
   const editorid = "user." + editor
   const p_author = conf.get(editorid) // 作者 id
 
-  const p_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区";
+  const p_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区"
 
   const p_content = `
     <strong>1. ${dx.title1}</strong>
@@ -168,9 +217,9 @@ function crateWp(epi, editor, dx) {
     'content-type': "Application/json",
   }
 
-  headers['Authorization'] = 'Basic ' + Buffer.from(u_id + ":" + u_passwd).toString('base64');
+  headers['Authorization'] = 'Basic ' + Buffer.from(u_id + ":" + u_passwd).toString('base64')
 
-  return fetch(wp_url_posts, {
+  return fetch(wpUrlPosts, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(payload),
@@ -179,68 +228,64 @@ function crateWp(epi, editor, dx) {
     .then(json => {
       console.log("url =>", json.permalink_template)
 
-      return `直接复制以下内容到微信公众号，标题:${p_title}，原文链接:${json.permalink_template}`;
+      return `直接复制以下内容到微信公众号，标题:${p_title}，原文链接:${json.permalink_template}`
     });
 
 }
 
-// Create Discord Msg
-// not sending msg to Discord
-function createDiscordMsg(epi, editor, dx) {
+// Create learnblockchain Post
+function createLearnblockchainPost(epi, dx) {
 
-  const discord_url_posts = "https://discord.com/api/webhooks/884879700248383541/SaChSV9vyEu3uSo2ZUJI2DfBunbCKs6cw4zUxIu_GXpz0njlDNyLAfmpEGQeeAqHXctZ"
+  const learnblockchainApikey = conf.get('learnblockchain_apikey')
+  const learnblockchainUrlPosts = conf.get('learnblockchain_url_posts')
+  const _title = "Web3 极客日报 " + epi
 
-  const p_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区";
+  const _content = `
+  ### ${dx.title1}
 
-  const p_content = `
-    ${p_title}
+  ${dx.url1}
 
-    1. ${dx.title1}
-    ${dx.url1}
+  **${dx.author1}**: ${dx.introduce1}
 
-    @${dx.author1}:${dx.introduce1}
-    &nbsp;
+  ### ${dx.title2}
 
-    2. ${dx.title2}
-    ${dx.url2}
+  ${dx.url2}
 
-    @${dx.author2}:${dx.introduce2}
-    &nbsp;
+  **${dx.author2}**: ${dx.introduce2}
 
-    3. ${dx.title3}
-    ${dx.url3}
+  ### ${dx.title3}
 
-    @${dx.author3}:${dx.introduce3}
-    &nbsp;
+  ${dx.url3}
 
-    <!--more-->
-
-    网站:https://rebase.network
-    公众号:rebase_network
+  **${dx.author3}**: ${dx.introduce3}
   `
-  const payload = {
-    'content': p_content
+  let _headers = {
+    'content-type': "application/x-www-form-urlencoded",
+    'x-api-key': learnblockchainApikey,
   }
 
-  let headers = {
-    'content-type': "Application/json",
+  const _payload = {
+    'title': _title,
+    'content': _content,
+    'type': 1, // 文章类型，1: 原创，2: 翻译，3: 转载，可不填
+    'is_public': 1, // 文章是否公开，1: 公开，2: 仅自己可见，不填默认为公开
+    'category_id': 8, // 填写文章分类 ID，5: 以太坊，7: Solidity, 8: 入门，13: 安全，23: 零知识，27: DeFi，可不填
   }
 
-  return fetch(discord_url_posts, {
+  return fetch(learnblockchainUrlPosts, {
       method: 'POST',
-      headers: headers,
-      body: JSON.stringify(payload),
+      headers: _headers,
+      body: JSON.stringify(_payload),
     })
     .then(res => res.json())
     .then(json => {
-      console.log("url =>", json.permalink_template)
-
-      return `Success`;
+      console.log("learnblockchain result =>", json)
     });
+
 }
 
-// Create WX chat content
-function gen_wx_content(content, dx){
+// Generate WX content
+function genWxContent(content, dx){
   let wx_content =`
     <div>${content} </div>
 

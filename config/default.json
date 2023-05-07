@@ -5,8 +5,11 @@
   "auth_name":"",
   "auth_passwd":"",
   "wp_url_posts": "",
-  "batch_endpoint":"",
-  "steinhq_api": "",
+  "db_batch_url":"",
+  "steinhq_url": "",
+  "push_msg_to_discord_url": "",
+  "learnblockchain_apikey":"",
+  "learnblockchain_url_posts": "https://learnblockchain.cn/api/post/article",
   "user":{
     "nana":"",
     "rebecca":"",
