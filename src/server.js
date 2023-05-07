@@ -264,18 +264,18 @@ function createLearnblockchainPost(epi, dx) {
     'x-api-key': learnblockchainApikey,
   }
 
-  const _payload = {
-    'title': _title,
-    'content': _content,
-    'type': 1, // 文章类型，1: 原创，2: 翻译，3: 转载，可不填
-    'is_public': 1, // 文章是否公开，1: 公开，2: 仅自己可见，不填默认为公开
-    'category_id': 8, // 填写文章分类 ID，5: 以太坊，7: Solidity, 8: 入门，13: 安全，23: 零知识，27: DeFi，可不填
-  }
+  let params = new URLSearchParams()
+
+  params.append("title", _title)
+  params.append("content", _content)
+  params.append("type", 1) // 文章类型，1: 原创，2: 翻译，3: 转载，可不填
+  params.append("is_public", 1) // 文章是否公开，1: 公开，2: 仅自己可见，默认为公开
+  params.append("category_id", 8)  // 填写文章分类 ID，5: 以太坊，7: Solidity, 8: 入门，13: 安全，23: 零知识，27: DeFi，可不填
 
   return fetch(learnblockchainUrlPosts, {
       method: 'POST',
       headers: _headers,
-      body: JSON.stringify(_payload),
+      body: params,
     })
     .then(res => res.json())
     .then(json => {
