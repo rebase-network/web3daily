@@ -6,6 +6,8 @@
   "auth_passwd":"",
   "wp_url_posts": "",
   "db_batch_url":"",
+  "strapi_batch_insert_url":"",
+  "strapi_token":"",
   "steinhq_url": "",
   "push_msg_to_discord_url": "",
   "learnblockchain_apikey":"",
