@@ -98,6 +98,10 @@ router.post("/pow", async (ctx, next) => {
     },
   ];
 
+  const strapiData = {
+    data: posts,
+  };
+
   // push data to railway postgreSQL DB
   fetch(strapiBatchInsertUrl, {
     method: "POST",
@@ -106,7 +110,7 @@ router.post("/pow", async (ctx, next) => {
       Authorization: "Bearer " + strapiToken,
     },
 
-    body: JSON.stringify(posts),
+    body: JSON.stringify(strapiData),
   });
 
   // push data to google sheets
