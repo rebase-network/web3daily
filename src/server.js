@@ -1,17 +1,17 @@
-const fs = require('fs');
+const fs = require("fs");
 const path = require("path");
-const conf = require('config');
+const conf = require("config");
 
-const Koa = require('koa');
-const router = require('@koa/router')();
-const bodyParser = require('koa-bodyparser');
-const auth = require('koa-basic-auth');
+const Koa = require("koa");
+const router = require("@koa/router")();
+const bodyParser = require("koa-bodyparser");
+const auth = require("koa-basic-auth");
 
-const fetch = require('node-fetch');
-const moment = require('moment');
+const fetch = require("node-fetch");
+const moment = require("moment");
 
 function getCurrTime() {
-  return moment(new Date()).format("YYYY-MM-DD")
+  return moment(new Date()).format("YYYY-MM-DD");
 }
 
 const SteinStore = require("stein-js-client");
@@ -24,99 +24,114 @@ app.use(async (ctx, next) => {
     await next();
   } catch (err) {
     if (401 == err.status) {
-      ctx.status = 401
-      ctx.set('WWW-Authenticate', 'Basic')
-      ctx.body = 'Access Denied'
+      ctx.status = 401;
+      ctx.set("WWW-Authenticate", "Basic");
+      ctx.body = "Access Denied";
     } else {
-      throw err
+      throw err;
     }
   }
 });
 
 // require auth
-app.use(auth({ name: conf.get('auth_name'), pass: conf.get('auth_passwd') }))
+app.use(auth({ name: conf.get("auth_name"), pass: conf.get("auth_passwd") }));
 
 app.use(bodyParser());
 
-router.get('/', (ctx, next) => {
-  ctx.response.type = 'html';
-  ctx.response.body = fs.createReadStream(path.join(__dirname, "/views/index.html"))
-})
+router.get("/", (ctx, next) => {
+  ctx.response.type = "html";
+  ctx.response.body = fs.createReadStream(
+    path.join(__dirname, "/views/index.html")
+  );
+});
 
-router.post('/pow', async (ctx, next) => {
-
-  let postData = ctx.request.body
+router.post("/pow", async (ctx, next) => {
+  let postData = ctx.request.body;
 
   // https://stackoverflow.com/a/51616282/1240067
-  Object.keys(postData).map(k => postData[k] = typeof postData[k] == 'string' ? postData[k].trim() : postData[k])
+  Object.keys(postData).map(
+    (k) =>
+      (postData[k] =
+        typeof postData[k] == "string" ? postData[k].trim() : postData[k])
+  );
 
-  const dbBatchUrl = conf.get('db_batch_url')
-  const steinhqUrl = conf.get('steinhq_url')
+  const steinhqUrl = conf.get("steinhq_url");
 
-  const store = new SteinStore(steinhqUrl)
+  const strapiToken = conf.get("strapi_token");
+  const strapiBatchInsertUrl = conf.get("strapi_batch_insert_url");
 
-  const now = getCurrTime()
-  const epi = "#" + postData.episode
+  const store = new SteinStore(steinhqUrl);
 
-  const wpFeedback = await createWpPost(epi, postData.editor, postData)
-  const learnblockchainFeedback = await createLearnblockchainPost(epi, postData)
+  const now = getCurrTime();
+  const epi = "#" + postData.episode;
 
-  let posts = [{
-    episode: epi,
-    time: now,
-    author: postData.author1,
-    title: postData.title1,
-    url: postData.url1,
-    introduce: postData.introduce1,
-  },
-  {
-    episode: epi,
-    time: now,
-    author: postData.author2,
-    title: postData.title2,
-    url: postData.url2,
-    introduce: postData.introduce2,
-  },
-  {
-    episode: epi,
-    time: now,
-    author: postData.author3,
-    title: postData.title3,
-    url: postData.url3,
-    introduce: postData.introduce3,
-  },]
+  const wpFeedback = await createWpPost(epi, postData.editor, postData);
+  const learnblockchainFeedback = await createLearnblockchainPost(
+    epi,
+    postData
+  );
 
-  // push data to postgreSQL DB
-  fetch(dbBatchUrl, {
-    method: 'POST',
-    headers: {'content-type': "application/json"},
+  let posts = [
+    {
+      episode: epi,
+      time: now,
+      author: postData.author1,
+      title: postData.title1,
+      url: postData.url1,
+      introduce: postData.introduce1,
+    },
+    {
+      episode: epi,
+      time: now,
+      author: postData.author2,
+      title: postData.title2,
+      url: postData.url2,
+      introduce: postData.introduce2,
+    },
+    {
+      episode: epi,
+      time: now,
+      author: postData.author3,
+      title: postData.title3,
+      url: postData.url3,
+      introduce: postData.introduce3,
+    },
+  ];
+
+  // push data to railway postgreSQL DB
+  fetch(strapiBatchInsertUrl, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Bearer " + strapiToken,
+    },
+
     body: JSON.stringify(posts),
-  })
-
-  // push data to google sheets
-  store.append("Summary", posts)
-    .then(res => {
-      console.log(res);
   });
 
-  const wxcontent = genWxContent(wpFeedback, postData)
+  // push data to google sheets
+  store.append("Summary", posts).then((res) => {
+    console.log(res);
+  });
+
+  const wxcontent = genWxContent(wpFeedback, postData);
   ctx.body = wxcontent;
-})
+});
 
 app.use(router.routes(), router.allowedMethods());
 
-const port = conf.get('port');
+const port = conf.get("port");
 
-app.listen(port, () => console.log("\n\nrunning on port http://localhost:" + port))
-
+app.listen(port, () =>
+  console.log("\n\nrunning on port http://localhost:" + port)
+);
 
 // Push Discord Msg
 // Do not sending msg to Discord
 function pushDiscordMsg(epi, dx) {
+  const pushMsgToDiscordUrl = conf.get("push_msg_to_discord_url");
 
-  const pushMsgToDiscordUrl = conf.get('push_msg_to_discord_url')
-
-  const d_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区"
+  const d_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区";
 
   const d_content = `
     ${d_title}
@@ -143,35 +158,34 @@ function pushDiscordMsg(epi, dx) {
 
     网站:https://rebase.network
     公众号:rebase_network
-  `
+  `;
   return fetch(pushMsgToDiscordUrl, {
-      method: 'POST',
-      headers: {'content-type': "application/json"},
-      body: JSON.stringify({ 'content': d_content }),
-    })
-    .then(res => res.json())
-    .then(json => {
-      console.log("dicord res =>", json)
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ content: d_content }),
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      console.log("dicord res =>", json);
 
-      return `Success`
+      return `Success`;
     });
 }
 
 // Create WP Post
 function createWpPost(epi, editor, dx) {
+  const wpUrlPosts = conf.get("wp_url_posts");
 
-  const wpUrlPosts = conf.get('wp_url_posts')
+  const p_status = "publish"; // 直接发布
+  const p_format = "gallery"; // 展示方式
+  const p_featured_media = "1012"; // 封面图片的 id
+  const p_categories = "27"; // 类别 id
+  const p_tags = [30, 32, 31, 28]; // 类别 id
 
-  const p_status = "publish" // 直接发布
-  const p_format = "gallery" // 展示方式
-  const p_featured_media = "1012" // 封面图片的 id
-  const p_categories = "27" // 类别 id
-  const p_tags = [30,32,31,28] // 类别 id
+  const editorid = "user." + editor;
+  const p_author = conf.get(editorid); // 作者 id
 
-  const editorid = "user." + editor
-  const p_author = conf.get(editorid) // 作者 id
-
-  const p_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区"
+  const p_title = "Web3 极客日报 " + epi + " | Rebase Network | Rebase 社区";
 
   const p_content = `
     <strong>1. ${dx.title1}</strong>
@@ -198,47 +212,46 @@ function createWpPost(epi, editor, dx) {
 
     网站:https://rebase.network
     公众号:rebase_network
-  `
+  `;
   const payload = {
-    'title': p_title,
-    'content': p_content,
-    'author': p_author,
-    'status': p_status,
-    'format': p_format,
-    'featured_media': p_featured_media,
-    'categories': p_categories,
-    'tags': p_tags,
-  }
+    title: p_title,
+    content: p_content,
+    author: p_author,
+    status: p_status,
+    format: p_format,
+    featured_media: p_featured_media,
+    categories: p_categories,
+    tags: p_tags,
+  };
 
-  const u_id = conf.get('u_id') // 用户名
-  const u_passwd = conf.get('u_passwd') // 使用 https://wordpress.org/plugins/application-passwords/ 得到密码
+  const u_id = conf.get("u_id"); // 用户名
+  const u_passwd = conf.get("u_passwd"); // 使用 https://wordpress.org/plugins/application-passwords/ 得到密码
 
   let headers = {
-    'content-type': "Application/json",
-  }
+    "content-type": "Application/json",
+  };
 
-  headers['Authorization'] = 'Basic ' + Buffer.from(u_id + ":" + u_passwd).toString('base64')
+  headers["Authorization"] =
+    "Basic " + Buffer.from(u_id + ":" + u_passwd).toString("base64");
 
   return fetch(wpUrlPosts, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify(payload),
-    })
-    .then(res => res.json())
-    .then(json => {
-      console.log("url =>", json.permalink_template)
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(payload),
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      console.log("url =>", json.permalink_template);
 
-      return `直接复制以下内容到微信公众号，标题:${p_title}，原文链接:${json.permalink_template}`
+      return `直接复制以下内容到微信公众号，标题:${p_title}，原文链接:${json.permalink_template}`;
     });
-
 }
 
 // Create learnblockchain Post
 function createLearnblockchainPost(epi, dx) {
-
-  const learnblockchainApikey = conf.get('learnblockchain_apikey')
-  const learnblockchainUrlPosts = conf.get('learnblockchain_url_posts')
-  const _title = "Web3 极客日报 " + epi
+  const learnblockchainApikey = conf.get("learnblockchain_apikey");
+  const learnblockchainUrlPosts = conf.get("learnblockchain_url_posts");
+  const _title = "Web3 极客日报 " + epi;
 
   const _content = `
   ### ${dx.title1}
@@ -258,35 +271,34 @@ function createLearnblockchainPost(epi, dx) {
   ${dx.url3}
 
   **${dx.author3}**: ${dx.introduce3}
-  `
+  `;
   let _headers = {
-    'content-type': "application/x-www-form-urlencoded",
-    'x-api-key': learnblockchainApikey,
-  }
+    "content-type": "application/x-www-form-urlencoded",
+    "x-api-key": learnblockchainApikey,
+  };
 
-  let params = new URLSearchParams()
+  let params = new URLSearchParams();
 
-  params.append("title", _title)
-  params.append("content", _content)
-  params.append("type", 1) // 文章类型，1: 原创，2: 翻译，3: 转载，可不填
-  params.append("is_public", 1) // 文章是否公开，1: 公开，2: 仅自己可见，默认为公开
-  params.append("category_id", 8)  // 填写文章分类 ID，5: 以太坊，7: Solidity, 8: 入门，13: 安全，23: 零知识，27: DeFi，可不填
+  params.append("title", _title);
+  params.append("content", _content);
+  params.append("type", 1); // 文章类型，1: 原创，2: 翻译，3: 转载，可不填
+  params.append("is_public", 1); // 文章是否公开，1: 公开，2: 仅自己可见，默认为公开
+  params.append("category_id", 8); // 填写文章分类 ID，5: 以太坊，7: Solidity, 8: 入门，13: 安全，23: 零知识，27: DeFi，可不填
 
   return fetch(learnblockchainUrlPosts, {
-      method: 'POST',
-      headers: _headers,
-      body: params,
-    })
-    .then(res => res.json())
-    .then(json => {
-      console.log("learnblockchain result =>", json)
+    method: "POST",
+    headers: _headers,
+    body: params,
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      console.log("learnblockchain result =>", json);
     });
-
 }
 
 // Generate WX content
-function genWxContent(content, dx){
-  let wx_content =`
+function genWxContent(content, dx) {
+  let wx_content = `
     <div>${content} </div>
 
     <br/>
@@ -421,6 +433,6 @@ function genWxContent(content, dx){
       <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></p>
       <p style="max-width: 100%;min-height: 1em;color: rgb(53, 53, 53);font-size: 14px;text-align: center;letter-spacing: 0.544px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><img class="rich_pages img_loading" data-ratio="1" data-s="300,640" data-type="png" data-w="372" data-src="https://mmbiz.qpic.cn/mmbiz_png/dQFmOEibdOIKVOj71RpnXzn8Tr4FaCggj0LDicic24267jickINQpwKjNSWo92oMn7M5phnyIuV5FIcbKzicMje0ZHw/640?wx_fmt=png" style="box-sizing: border-box !important; overflow-wrap: break-word !important; visibility: visible !important; width: 223px !important; height: 223px !important;" _width="223px" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" crossorigin="anonymous"></p>
     </div>
-  `
+  `;
   return wx_content;
 }
