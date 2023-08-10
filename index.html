@@ -19,16 +19,17 @@
       {{#if this}}
         <div class="article">
           <h2 class="title">
-            {{this.title}}
+            {{this.attributes.title}}
             <span class="time">{{this.time}}</span>
           </h2>
+
           <p>
-            <a href="{{this.url}}" target="_blank">{{this.url}}</a>
-            <br/>
+            <a href="{{this.attributes.url}}" target="_blank">{{this.attributes.url}}</a>
+            <br />
           </p>
           <p>
-            <span class="author">{{this.author}}</span>
-            {{this.introduce}}
+            <span class="author">{{this.attributes.author}}</span>
+            {{this.attributes.introduce}}
           </p>
         </div>
       {{/if}}
@@ -36,8 +37,7 @@
   </script>
 
   <style>
-
-  .wximg {
+    .wximg {
       width: 200px;
       height: 200px;
     }
@@ -46,7 +46,6 @@
       width: 150px;
       height: 150px;
     }
-
   </style>
 </head>
 
@@ -103,12 +102,16 @@
 </body>
 
 <script>
-  $.get("http://db.rebase.network/web3daily/public/posts?_order=-id,-time", function(data) {
+  var url = "https://strapi-production-ea1d.up.railway.app/api/v1/geekdailies?sort=time:desc&pagination[page]=1&pagination[pageSize]=30";
 
+  $.get(url, function(resp) {
+    var data = resp.data;
     var source = $("#articleTpl").html();
     var template = Handlebars.compile(source);
 
-    var html = template({articles: data});
+    var html = template({
+      articles: data
+    });
     $('#posts').html(html);
   })
 </script>
